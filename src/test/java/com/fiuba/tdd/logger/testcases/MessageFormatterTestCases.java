@@ -6,6 +6,9 @@ import com.fiuba.tdd.logger.internal.MessageFormatter;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 public class MessageFormatterTestCases extends TestCase{
 
     private final String noFormat = "None format string";
@@ -17,31 +20,17 @@ public class MessageFormatterTestCases extends TestCase{
     private final String withFileName = "show invoker filename :: %F";
     private final String withLineNumber = "show invoker line :: %L";
     private final String withMethodName = "show invoker method :: %M";
-    private final String withDate = "show invoker method :: %d{dd/mm/aa}";
-
-    private LoggerInvoker asInvoker;
-    /*
-        Permitir si se desea definir el formato de todos los mensajes logueados por algun patron:
-        ● %d{xxxxxxx} debería aceptar cualquier formato válido de SimpleDateFormat.
-        ● %p debería mostrar el Nivel del mensaje.
-        ● %t deberia mostrar el nombre del thread actual.
-        ● %m debería mostrar el contenido del mensaje logueado por el usuario.
-        ● %% debería mostrar un % (es el escape de %).
-        ● %n debería mostrar el “separador” con el que el usuario configuró la herramienta o un default a elección.
-        ● %L line number.
-        ● %F filename.
-        ● %M method name.
-    */
+    private final String withDate = "show invoker method :: %d{dd/M/yyyy}";
 
 
     @Test
     public void testFormatMessage_NoFormat(){
 
-        this.asInvoker = new LoggerInvoker(Thread.currentThread().getStackTrace()[0]);
+        LoggerInvoker invoker = new LoggerInvoker(Thread.currentThread().getStackTrace()[0]);
 
         MessageFormatter mf = new MessageFormatter(noFormat, ",", Logger.Level.INFO);
 
-        assertEquals("Formatter modified an unformatted string", noFormat, mf.formatMessage(this.asInvoker, ""));
+        assertEquals("Formatter modified an unformatted string", noFormat, mf.formatMessage(invoker, ""));
 
     }
 
@@ -55,7 +44,7 @@ public class MessageFormatterTestCases extends TestCase{
         String expected = "show invoker line :: " + (currentLine + 2 );
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
-        assertEquals("Formatter modified an unformatted string", expected, formatted);
+        assertEquals(expected, formatted);
     }
 
     @Test
@@ -67,7 +56,7 @@ public class MessageFormatterTestCases extends TestCase{
         String expected = "show invoker filename :: " + fileName;
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
-        assertEquals("Formatter modified an unformatted string", expected, formatted);
+        assertEquals(expected, formatted);
     }
 
     @Test
@@ -78,7 +67,7 @@ public class MessageFormatterTestCases extends TestCase{
         String expected = "show level :: INFO";
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
-        assertEquals("Formatter modified an unformatted string", expected, formatted);
+        assertEquals(expected, formatted);
     }
 
     @Test
@@ -90,7 +79,7 @@ public class MessageFormatterTestCases extends TestCase{
         String expected = "show invoker method :: " + methodName;
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
-        assertEquals("Formatter modified an unformatted string", expected, formatted);
+        assertEquals(expected, formatted);
     }
 
     @Test
@@ -102,7 +91,7 @@ public class MessageFormatterTestCases extends TestCase{
         String expected = "show message :: " + message;
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), message);
 
-        assertEquals("Formatter modified an unformatted string", expected, formatted);
+        assertEquals(expected, formatted);
     }
 
     @Test
@@ -113,7 +102,7 @@ public class MessageFormatterTestCases extends TestCase{
         String expected = "show percent :: %";
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
-        assertEquals("Formatter modified an unformatted string", expected, formatted);
+        assertEquals(expected, formatted);
     }
 
     @Test
@@ -124,7 +113,7 @@ public class MessageFormatterTestCases extends TestCase{
         String expected = "show separator :: ,";
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
-        assertEquals("Formatter modified an unformatted string", expected, formatted);
+        assertEquals(expected, formatted);
     }
 
     @Test
@@ -136,22 +125,23 @@ public class MessageFormatterTestCases extends TestCase{
         String expected = "show thread :: " + thread;
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
-        assertEquals("Formatter modified an unformatted string", expected, formatted);
+        assertEquals(expected, formatted);
     }
 
     @Test
     public void testFormatMessage_WithDate(){
 
-        // TODO
+        MessageFormatter mf = new MessageFormatter(withDate, ",", Logger.Level.INFO);
 
-//        MessageFormatter mf = new MessageFormatter(withDate, ",", Logger.Level.INFO);
-//
-//        Date date = new Date();
-//        String expected = "show invoker method :: ";
-//        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
-//
-//        assertEquals("Formatter modified an unformatted string", expected, formatted);
+        Calendar calendar = new GregorianCalendar();
+        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        String month = String.valueOf(calendar.get(Calendar.MONTH) +1 );
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+
+        String expected = "show invoker method :: " + day +"/"+ month +"/"+ year ;
+        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
+
+        assertEquals("Formatter modified an unformatted string", expected, formatted);
     }
-
 
 }
