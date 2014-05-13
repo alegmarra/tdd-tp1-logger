@@ -16,7 +16,6 @@ public class MessageFormatter {
     private final Level level;
 
     private SimpleDateFormat dateFormatter;
-
     private String format;
 
     public MessageFormatter(String format, String separator, Level logLevel){
