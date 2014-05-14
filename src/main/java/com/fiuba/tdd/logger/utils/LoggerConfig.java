@@ -4,6 +4,8 @@ import com.fiuba.tdd.logger.Logger;
 
 public class LoggerConfig {
 
+    public enum ConfigKey {LEVEL, FORMAT, SEPARATOR}
+
     final public Logger.Level level;
     final public String format;
     final public String separator;
