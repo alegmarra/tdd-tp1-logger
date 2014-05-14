@@ -1,7 +1,8 @@
 package com.fiuba.tdd.logger.writers;
 
-import java.io.PrintStream;
 import com.fiuba.tdd.logger.Appendable;
+
+import java.io.PrintStream;
 
 public class ConsoleAppender implements Appendable {
 
