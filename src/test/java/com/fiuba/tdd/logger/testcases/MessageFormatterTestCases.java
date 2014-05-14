@@ -12,16 +12,26 @@ import java.util.GregorianCalendar;
 public class MessageFormatterTestCases extends TestCase{
 
     private final String noFormat = "None format string";
-    private final String withLevel = "show level :: %p";
-    private final String withThread = "show thread :: %t";
-    private final String withMessage = "show message :: %m";
-    private final String withPercent = "show percent :: %%";
-    private final String withSeparator = "show separator :: %n";
-    private final String withFileName = "show invoker filename :: %F";
-    private final String withLineNumber = "show invoker line :: %L";
-    private final String withMethodName = "show invoker method :: %M";
-    private final String withDate = "show invoker method :: %d{dd/M/yyyy}";
+    private final String formatWithLevel = "show level :: %p";
+    private final String formatWithThread = "show thread :: %t";
+    private final String formatWithMessage = "show message :: %m";
+    private final String formatWithPercent = "show percent :: %%";
+    private final String formatWithSeparator = "show separator :: %n";
+    private final String formatWithFileName = "show invoker filename :: %F";
+    private final String formatWithLineNumber = "show invoker line :: %L";
+    private final String formatWithMethodName = "show invoker method :: %M";
+    private final String formatWithDate = "show invoker method :: %d{dd/M/yyyy}";
 
+    private final String integrationFormat =  "Simple text" +
+                                            " and level %p" +
+                                            " and thread %t" +
+                                            " and message '%m'" +
+                                            " and percent %%" +
+                                            " and separator %n" +
+                                            " and filename %F" +
+                                            " and line %L" +
+                                            " and method %M" +
+                                            " and date %d{HH:mm:ss}";
 
     @Test
     public void testFormatMessage_NoFormat(){
@@ -31,14 +41,13 @@ public class MessageFormatterTestCases extends TestCase{
         MessageFormatter mf = new MessageFormatter(noFormat, ",", Logger.Level.INFO);
 
         assertEquals("Formatter modified an unformatted string", noFormat, mf.formatMessage(invoker, ""));
-
     }
 
 
     @Test
     public void testFormatMessage_WithLine(){
 
-        MessageFormatter mf = new MessageFormatter(withLineNumber, ",", Logger.Level.INFO);
+        MessageFormatter mf = new MessageFormatter(formatWithLineNumber, ",", Logger.Level.INFO);
 
         Integer currentLine = Thread.currentThread().getStackTrace()[1].getLineNumber();
         String expected = "show invoker line :: " + (currentLine + 2 );
@@ -50,7 +59,7 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithFileName(){
 
-        MessageFormatter mf = new MessageFormatter(withFileName, ",", Logger.Level.INFO);
+        MessageFormatter mf = new MessageFormatter(formatWithFileName, ",", Logger.Level.INFO);
 
         String fileName = Thread.currentThread().getStackTrace()[1].getFileName();
         String expected = "show invoker filename :: " + fileName;
@@ -62,7 +71,7 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithLevel(){
 
-        MessageFormatter mf = new MessageFormatter(withLevel, ",", Logger.Level.INFO);
+        MessageFormatter mf = new MessageFormatter(formatWithLevel, ",", Logger.Level.INFO);
 
         String expected = "show level :: INFO";
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
@@ -73,7 +82,7 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithMethodName(){
 
-        MessageFormatter mf = new MessageFormatter(withMethodName, ",", Logger.Level.INFO);
+        MessageFormatter mf = new MessageFormatter(formatWithMethodName, ",", Logger.Level.INFO);
 
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         String expected = "show invoker method :: " + methodName;
@@ -85,7 +94,7 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithMessage(){
 
-        MessageFormatter mf = new MessageFormatter(withMessage, ",", Logger.Level.INFO);
+        MessageFormatter mf = new MessageFormatter(formatWithMessage, ",", Logger.Level.INFO);
 
         String message = "My_Custom Message";
         String expected = "show message :: " + message;
@@ -97,7 +106,7 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithPercent(){
 
-        MessageFormatter mf = new MessageFormatter(withPercent, ",", Logger.Level.INFO);
+        MessageFormatter mf = new MessageFormatter(formatWithPercent, ",", Logger.Level.INFO);
 
         String expected = "show percent :: %";
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
@@ -108,9 +117,9 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithSeparator(){
 
-        MessageFormatter mf = new MessageFormatter(withSeparator, ",", Logger.Level.INFO);
+        MessageFormatter mf = new MessageFormatter(formatWithSeparator, "-_-", Logger.Level.INFO);
 
-        String expected = "show separator :: ,";
+        String expected = "show separator :: -_-";
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
         assertEquals(expected, formatted);
@@ -119,7 +128,7 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithThread(){
 
-        MessageFormatter mf = new MessageFormatter(withThread, ",", Logger.Level.INFO);
+        MessageFormatter mf = new MessageFormatter(formatWithThread, ",", Logger.Level.INFO);
 
         String thread = Thread.currentThread().getName();
         String expected = "show thread :: " + thread;
@@ -131,7 +140,7 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithDate(){
 
-        MessageFormatter mf = new MessageFormatter(withDate, ",", Logger.Level.INFO);
+        MessageFormatter mf = new MessageFormatter(formatWithDate, ",", Logger.Level.INFO);
 
         Calendar calendar = new GregorianCalendar();
         String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
@@ -141,7 +150,34 @@ public class MessageFormatterTestCases extends TestCase{
         String expected = "show invoker method :: " + day +"/"+ month +"/"+ year ;
         String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
-        assertEquals("Formatter modified an unformatted string", expected, formatted);
+        assertEquals("Formatter failed at formatting the date", expected, formatted);
+    }
+
+
+    @Test
+    public void testFormatMessage_AllReplaced(){
+
+        String level = Logger.Level.DEBUG.name();
+        String separator = ",";
+        MessageFormatter mf = new MessageFormatter(integrationFormat, separator, Logger.Level.DEBUG);
+
+        Calendar calendar = new GregorianCalendar();
+        String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+        String minute = String.valueOf(calendar.get(Calendar.MINUTE));
+        String second = String.valueOf(calendar.get(Calendar.SECOND));
+
+        String message = "My_Custom Message";
+        String thread = Thread.currentThread().getName();
+        String fileName = Thread.currentThread().getStackTrace()[1].getFileName();
+        String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
+        int currentLine = Thread.currentThread().getStackTrace()[1].getLineNumber();
+
+        String expected = String.format("Simple text and level %s and thread %s and message '%s' and percent %% and separator %s and filename %s and line %s and method %s and date %s:%s:%s",
+                                        level, thread, message, separator, fileName, Integer.toString(currentLine+5), methodName, hour, minute, second);
+
+        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), message);
+
+        assertEquals("Formatter failed with multiple replacements", expected, formatted);
     }
 
 }
