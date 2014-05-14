@@ -1,6 +1,7 @@
 package com.fiuba.tdd.logger.internal;
 
 import com.fiuba.tdd.logger.Logger.Level;
+import com.fiuba.tdd.logger.utils.LoggerConfig;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -18,10 +19,11 @@ public class MessageFormatter {
     private SimpleDateFormat dateFormatter;
     private String format;
 
-    public MessageFormatter(String format, String separator, Level logLevel){
-        this.format = format;
-        this.separator = separator;
-        this.level = logLevel;
+    public MessageFormatter(LoggerConfig loggerConfig){
+
+        this.format = loggerConfig.format;
+        this.separator = loggerConfig.separator;
+        this.level = loggerConfig.level;
 
         this.dateFormatter = setDateFormatter();
     }
