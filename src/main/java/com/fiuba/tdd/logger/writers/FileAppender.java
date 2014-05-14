@@ -14,6 +14,9 @@ public class FileAppender implements com.fiuba.tdd.logger.Appendable {
 
     public FileAppender(String fileName) throws InvalidArgumentException, IOException {
 
+        if (fileName == null || fileName.isEmpty())
+            throw new InvalidArgumentException(new String[]{"The given filename was null or the string was empty"});
+
         this.outputFile = new File(fileName);
 
         if (!outputFile.createNewFile() && !outputFile.canWrite()){
