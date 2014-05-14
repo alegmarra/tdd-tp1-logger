@@ -10,7 +10,7 @@ public class ConsoleAppender implements Appendable {
     public ConsoleAppender(){}
 
     @Override
-    public void write(String message) {
+    public void append(String message) {
 
         output.println(message);
     }

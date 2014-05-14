@@ -23,7 +23,7 @@ public class FileAppender implements com.fiuba.tdd.logger.Appendable {
 
 
     @Override
-    public void write(String message) throws IOException {
+    public void append(String message) throws IOException {
         PrintWriter output = null;
 
         try {

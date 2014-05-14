@@ -4,6 +4,6 @@ import java.io.IOException;
 
 public interface Appendable {
 
-    public void write(String message) throws IOException;
+    public void append(String message) throws IOException;
 
 }
