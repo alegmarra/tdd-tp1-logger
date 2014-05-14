@@ -1,9 +1,9 @@
 package com.fiuba.tdd.logger;
 
-import com.fiuba.tdd.logger.internal.LoggerInvoker;
+import java.io.IOException;
 
 public interface Appendable {
 
-    public void write(LoggerInvoker invoker, String message);
+    public void write(String message) throws IOException;
 
 }

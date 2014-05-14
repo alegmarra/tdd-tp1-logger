@@ -1,38 +1,37 @@
 package com.fiuba.tdd.logger.writers;
 
-import com.fiuba.tdd.logger.internal.LoggerInvoker;
-import com.fiuba.tdd.logger.internal.MessageFormatter;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class FileAppender implements com.fiuba.tdd.logger.Appendable {
 
+    private final Boolean appendToEnd = true;
     private File outputFile;
-    private MessageFormatter formatter;
 
-    public FileAppender(String fileName, MessageFormatter formatter) throws IOException {
+    public FileAppender(String fileName) throws InvalidArgumentException, IOException {
 
         this.outputFile = new File(fileName);
-        this.formatter = formatter;
+
+        if (!outputFile.createNewFile() && !outputFile.canWrite()){
+            throw new InvalidArgumentException(new String[]{"The given file already exist and cannot be written by this application"});
+        }
     }
 
 
     @Override
-    public void write(LoggerInvoker invoker, String message){
+    public void write(String message) throws IOException {
         PrintWriter output = null;
-        try {
-            output = new PrintWriter(new FileWriter(this.outputFile, true));
-            output.println(formatter.formatMessage(invoker, message));
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            //FIXME
+        try {
+            output = new PrintWriter(new FileWriter(this.outputFile, appendToEnd));
+            output.println(message);
 
         } finally {
-
             if (output != null) output.close();
         }
-
-
     }
 }
