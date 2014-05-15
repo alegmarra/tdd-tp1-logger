@@ -4,7 +4,7 @@ package com.fiuba.tdd.logger.internal;
 /**
  * Clase de uso interno, utilizada como abstracción por sobre los métodos
  * (un poco más complejos) que permiten obtener información sobre el momento
- * en que se llamó a un método de logging. Incluye, por enunciado,
+ * en que se llamó a una función de logging. Incluye, por enunciado,
  * <li> nombre del archivo </li>
  * <li> línea del archivo </li>
  * <li> nombre de la clase </li>
