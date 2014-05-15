@@ -11,7 +11,8 @@ public class LoggerConfig {
     final public String separator;
 
     public LoggerConfig(){
-        this.level = Logger.Level.DEBUG;
+
+        this.level = Logger.Level.INFO;
         this.format = "%d{HH:mm:ss} %n %p %n %t %n %m ";
         this.separator = "-";
     }
@@ -22,5 +23,15 @@ public class LoggerConfig {
         this.format = format;
         this.separator = separator;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        return (obj instanceof LoggerConfig &&
+               ((LoggerConfig) obj).format.equals(this.format) &&
+               ((LoggerConfig) obj).level.equals(this.level) &&
+               ((LoggerConfig) obj).separator.equals(this.separator));
+    }
+
+
 
 }
