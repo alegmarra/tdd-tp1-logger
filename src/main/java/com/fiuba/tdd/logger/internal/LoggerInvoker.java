@@ -3,9 +3,11 @@ package com.fiuba.tdd.logger.internal;
 public class LoggerInvoker {
 
     private StackTraceElement invoker;
+    private String thread;
 
     public LoggerInvoker(StackTraceElement stackTraceElement){
         invoker = stackTraceElement;
+        thread = Thread.currentThread().getName();
     }
 
     public String getLine(){
@@ -22,5 +24,9 @@ public class LoggerInvoker {
 
     public String getClassName(){
         return invoker.getClassName();
+    }
+
+    public String getThread(){
+        return thread;
     }
 }

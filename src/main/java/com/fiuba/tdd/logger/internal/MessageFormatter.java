@@ -47,7 +47,7 @@ public class MessageFormatter {
                      .replaceAll("%L", invoker.getLine())
                      .replaceAll("%F", invoker.getFilename())
                      .replaceAll("%M", invoker.getMethodName())
-                     .replaceAll("%t", Thread.currentThread().getName())
+                     .replaceAll("%t", invoker.getThread())
                      .replaceAll(dateGroupPattern, dateFormatter.format(new GregorianCalendar().getTime()))
                      .replaceAll("%%", "%");
     }
