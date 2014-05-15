@@ -9,6 +9,12 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Esta clase es el Logger en sí mismo, es decir, aquéllo que usaría el
+ * usuario final (un programador). Comprende la interfaz pública de la API,
+ * que consiste en métodos para configurar, para obtener una instancia y,
+ * naturalmente, para loguear en los distintos niveles.
+ */
 public class Logger {
 
     public enum Level {DEBUG, INFO, WARN, ERROR, FATAL, OFF}

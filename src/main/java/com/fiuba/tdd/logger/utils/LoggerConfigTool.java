@@ -13,6 +13,14 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Clase destinada a la configuración del logger. Puede tomar un archivo
+ * de properties con la configuración deseada y rellenar aquellos campos
+ * faltantes con valores por defecto. También puede ser construido sólo con
+ * valores por defecto.
+ *
+ * Es parte de la interfaz pública.
+ */
 public class LoggerConfigTool {
 
     public static final String configRegexPattern = "(?i)(%s|%s|%s)=(.+)";
