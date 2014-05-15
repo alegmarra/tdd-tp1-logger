@@ -4,14 +4,15 @@ import com.fiuba.tdd.logger.Appendable;
 import com.fiuba.tdd.logger.Logger;
 import com.fiuba.tdd.logger.Logger.Level;
 import com.fiuba.tdd.logger.internal.InvalidArgumentException;
+import com.fiuba.tdd.logger.internal.Properties;
 import com.fiuba.tdd.logger.utils.LoggerConfig.ConfigKey;
 import com.fiuba.tdd.logger.writers.ConsoleAppender;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-import java.io.*;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Clase destinada a la configuración del logger. Puede tomar un archivo
@@ -22,8 +23,6 @@ import java.util.regex.Pattern;
  * Es parte de la interfaz pública.
  */
 public class LoggerConfigTool {
-
-    public static final String configRegexPattern = "(?i)(%s|%s|%s)=(.+)";
 
     private static LoggerConfig config;
 
@@ -45,60 +44,15 @@ public class LoggerConfigTool {
             throw new InvalidArgumentException("The given filename was null or the string was empty");
 
         LoggerConfig defaultConfig = new LoggerConfig();
+        Properties properties = new Properties(configFileName);
 
-        Map<ConfigKey, String> fileConfig = parseConfigFile(configFileName);
-
-        Level level = fileConfig.containsKey(ConfigKey.LEVEL) ? Level.valueOf(fileConfig.get(ConfigKey.LEVEL)) : defaultConfig.level;
-        String format = fileConfig.containsKey(ConfigKey.FORMAT) ? fileConfig.get(ConfigKey.FORMAT) : defaultConfig.format;
-        String separator = fileConfig.containsKey(ConfigKey.SEPARATOR) ? fileConfig.get(ConfigKey.SEPARATOR) : defaultConfig.separator;
+        Level level = Level.valueOf(properties.getProperty(ConfigKey.LEVEL, defaultConfig.level.name()));
+        String format = properties.getProperty(ConfigKey.FORMAT, defaultConfig.format);
+        String separator = properties.getProperty(ConfigKey.SEPARATOR, defaultConfig.separator);
 
         config = new LoggerConfig(format, level, separator);
     }
 
-
-    private Map<ConfigKey, String> parseConfigFile(String configFileName)
-            throws IOException
-    {
-        Map<ConfigKey, String> configValues = new HashMap<>();
-        BufferedReader br = null;
-        try {
-
-            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(configFileName);
-            br = (is != null) ? new BufferedReader(new InputStreamReader(is)) : new BufferedReader(new FileReader(configFileName));
-
-            String currentLine;
-            while ((currentLine = br.readLine()) != null) {
-                Map<ConfigKey, String> entry = parseConfigElement(currentLine);
-
-                if (entry != null){
-                    configValues.putAll(entry);
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-
-        } finally {
-            if (br != null) br.close();
-        }
-
-        return configValues;
-    }
-
-    private Map<ConfigKey, String> parseConfigElement(String line) {
-        final String configFormat = String.format(configRegexPattern, ConfigKey.FORMAT.name(), ConfigKey.LEVEL, ConfigKey.SEPARATOR);
-
-        final Matcher matcher = Pattern.compile(configFormat).matcher(line);
-        if (matcher.matches()){
-
-            return new HashMap<ConfigKey, String>(){{
-                put(ConfigKey.valueOf(matcher.group(1).toUpperCase()), matcher.group(2).trim());
-            }};
-        }
-
-        return null;
-    }
 
 
     public LoggerConfig getConfig() {
