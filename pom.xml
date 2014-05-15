@@ -39,6 +39,9 @@
                     <configuration>
                         <!--Avoids error when running powermockito in java 7-->
                         <argLine>-XX:-UseSplitVerifier</argLine>
+                        <includes>
+                            <include>**/*TestCases*</include>
+                        </includes>
                     </configuration>
                 </plugin>
             </plugins>
