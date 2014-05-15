@@ -3,8 +3,8 @@ package com.fiuba.tdd.logger.utils;
 import com.fiuba.tdd.logger.Logger;
 
 /**
- * Clase cuya función es abstraerse de las internas de configuración del
- * Logger. Es parte de la interfaz pública.
+ * Clase cuya función es abstraerse de las internas de los atributos de
+ * configuración del Logger.
  */
 public class LoggerConfig {
 
