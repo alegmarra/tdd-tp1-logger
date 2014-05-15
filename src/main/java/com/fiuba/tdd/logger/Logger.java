@@ -3,24 +3,46 @@ package com.fiuba.tdd.logger;
 import com.fiuba.tdd.logger.internal.LoggerInvoker;
 import com.fiuba.tdd.logger.internal.MessageFormatter;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
+import com.fiuba.tdd.logger.writers.ConsoleAppender;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Logger {
 
-    public static final int StackDepthForLoggerInvoker = 2;  // Magic number 2!
+    public enum Level {DEBUG, INFO, WARN, ERROR, FATAL, OFF}
+
+    private static final int StackDepthFromLoggerInvokerToLog = 2;
 
     private Level level;
     private String format;
     private String separator;
-    private List<Appendable> outputs;
+    private List<Appendable> outputs = new LinkedList<>();
 
-    public enum Level {DEBUG, INFO, WARN, ERROR, FATAL, OFF}
+    public Logger(){
+        setDefaultConfig();
+    }
+
+    public Logger(final String format, Level level, final String separator, Appendable... outputs) throws InvalidArgumentException {
+
+        if (format == null || level == null || separator == null)
+            throw new InvalidArgumentException(new String[]{"Null value given for required argument. Format, level and separator should not be null"});
+
+        this.format = format;
+        this.level = level;
+        this.separator = separator;
+
+        for (Appendable appender : outputs)
+            registerAppender(appender);
+    }
 
     public void setLevel(Level level){
         this.level = level;
     }
+
+    public Level getLevel(){ return Level.valueOf(this.level.name());}
 
     public void setFormat(final String format){
         this.format = format;
@@ -30,8 +52,11 @@ public class Logger {
         this.separator = separator;
     }
 
-    public void registerAppender(Appendable writer){
-        outputs.add(writer);
+    public void registerAppender(Appendable appender) throws InvalidArgumentException {
+        if (appender == null)
+            throw new InvalidArgumentException(new String[]{"Output appenders cannot be null"});
+
+        outputs.add(appender);
     }
 
     public void debug(String msg){
@@ -54,21 +79,30 @@ public class Logger {
         log(msg, Level.FATAL);
     }
 
+
+    private void setDefaultConfig() {
+
+        LoggerConfig defaultConfig = new LoggerConfig();
+        this.level = defaultConfig.level;
+        this.format = defaultConfig.format;
+        this.separator = defaultConfig.separator;
+    }
+
     private void log(String msg, Level level) {
         if (level.ordinal() < this.level.ordinal())
             return;
 
-        LoggerInvoker invoker = new LoggerInvoker(Thread.currentThread().getStackTrace()[StackDepthForLoggerInvoker]);
+        LoggerInvoker invoker = new LoggerInvoker(Thread.currentThread().getStackTrace()[StackDepthFromLoggerInvokerToLog]);
         MessageFormatter messageFormatter = new MessageFormatter(new LoggerConfig(this.format, level, this.separator));
 
-        String finalMsg = messageFormatter.formatMessage(invoker, msg);
+        final String finalMsg = messageFormatter.formatMessage(invoker, msg);
 
         // TODO discuss how to handle IOException
         for ( Appendable output : outputs ) {
             try {
                 output.append(finalMsg);
             } catch (IOException e) {
-                System.out.println(e);
+                e.printStackTrace();
             }
         }
 
