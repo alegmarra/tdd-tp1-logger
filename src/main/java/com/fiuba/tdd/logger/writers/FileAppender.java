@@ -1,6 +1,6 @@
 package com.fiuba.tdd.logger.writers;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
+import com.fiuba.tdd.logger.internal.InvalidArgumentException;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -15,12 +15,12 @@ public class FileAppender implements com.fiuba.tdd.logger.Appendable {
     public FileAppender(String fileName) throws InvalidArgumentException, IOException {
 
         if (fileName == null || fileName.isEmpty())
-            throw new InvalidArgumentException(new String[]{"The given filename was null or the string was empty"});
+            throw new InvalidArgumentException("The given filename was null or the string was empty");
 
         this.outputFile = new File(fileName);
 
         if (!outputFile.createNewFile() && !outputFile.canWrite()){
-            throw new InvalidArgumentException(new String[]{"The given file already exist and cannot be written by this application"});
+            throw new InvalidArgumentException("The given file already exist and cannot be written by this application");
         }
     }
 

@@ -1,10 +1,9 @@
 package com.fiuba.tdd.logger;
 
+import com.fiuba.tdd.logger.internal.InvalidArgumentException;
 import com.fiuba.tdd.logger.internal.LoggerInvoker;
 import com.fiuba.tdd.logger.internal.MessageFormatter;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
-import com.fiuba.tdd.logger.writers.ConsoleAppender;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -28,7 +27,7 @@ public class Logger {
     public Logger(final String format, Level level, final String separator, Appendable... outputs) throws InvalidArgumentException {
 
         if (format == null || level == null || separator == null)
-            throw new InvalidArgumentException(new String[]{"Null value given for required argument. Format, level and separator should not be null"});
+            throw new InvalidArgumentException("Null value given for required argument. Format, level and separator should not be null");
 
         this.format = format;
         this.level = level;
@@ -54,7 +53,7 @@ public class Logger {
 
     public void registerAppender(Appendable appender) throws InvalidArgumentException {
         if (appender == null)
-            throw new InvalidArgumentException(new String[]{"Output appenders cannot be null"});
+            throw new InvalidArgumentException("Output appenders cannot be null");
 
         outputs.add(appender);
     }

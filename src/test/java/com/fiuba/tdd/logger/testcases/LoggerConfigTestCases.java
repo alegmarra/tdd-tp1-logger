@@ -1,9 +1,9 @@
 package com.fiuba.tdd.logger.testcases;
 
 import com.fiuba.tdd.logger.Logger.Level;
+import com.fiuba.tdd.logger.internal.InvalidArgumentException;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 import com.fiuba.tdd.logger.utils.LoggerConfigTool;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 
 public class LoggerConfigTestCases {
 
-    private final Level defaultLevel = Level.DEBUG;
+    private final Level defaultLevel = Level.INFO;
     private final String defaultFormat = "%d{HH:mm:ss} %n %p %n %t %n %m ";
     private final String defaultSeparator = "-";
 

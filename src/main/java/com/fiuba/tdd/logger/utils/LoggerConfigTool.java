@@ -3,9 +3,10 @@ package com.fiuba.tdd.logger.utils;
 import com.fiuba.tdd.logger.Appendable;
 import com.fiuba.tdd.logger.Logger;
 import com.fiuba.tdd.logger.Logger.Level;
+import com.fiuba.tdd.logger.internal.InvalidArgumentException;
 import com.fiuba.tdd.logger.utils.LoggerConfig.ConfigKey;
 import com.fiuba.tdd.logger.writers.ConsoleAppender;
-import com.sun.javaws.exceptions.InvalidArgumentException;
+
 
 import java.io.*;
 import java.util.*;
@@ -33,7 +34,7 @@ public class LoggerConfigTool {
     public LoggerConfigTool(String configFileName) throws IOException, InvalidArgumentException {
 
         if (configFileName == null || configFileName.isEmpty())
-            throw new InvalidArgumentException(new String[]{"The given filename was null or the string was empty"});
+            throw new InvalidArgumentException("The given filename was null or the string was empty");
 
         LoggerConfig defaultConfig = new LoggerConfig();
 
@@ -101,7 +102,6 @@ public class LoggerConfigTool {
     }
 
 
-    // TODO Discutir sobre si usar esto o el objeto de config... o ambos
     public void config(Logger logger) {
 
         logger.setLevel(level);
@@ -109,7 +109,11 @@ public class LoggerConfigTool {
         logger.setSeparator(separator);
 
         for ( Appendable output : outputs ) {
-            logger.registerAppender(output);
+            try {
+                logger.registerAppender(output);
+            } catch (InvalidArgumentException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
