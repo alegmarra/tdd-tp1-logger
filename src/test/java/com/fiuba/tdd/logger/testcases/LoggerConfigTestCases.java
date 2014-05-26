@@ -87,19 +87,14 @@ public class LoggerConfigTestCases {
     }
 
 
-    @Test
-    public void testExceptionThrownInvalidFile() {
+    @Test(expected = InvalidArgumentException.class)
+    public void testExceptionThrownInvalidFile() throws InvalidArgumentException {
 
         try {
             LoggerConfigTool configTool = new LoggerConfigTool("");
-            fail("An exception was expected but none was thrown when trying to read an invalid file");
-
         } catch (IOException e) {
             e.printStackTrace();
             fail("An InvalidArgumentException was expected a different one was thrown");
-
-        } catch (InvalidArgumentException e) {
-            assertTrue(true);
         }
     }
 

@@ -65,17 +65,12 @@ public class FileAppenderTestCases {
         }
     }
 
-    @Test
-    public void testCreateNewFile_ThrowsException() {
+    @Test(expected = InvalidArgumentException.class)
+    public void testCreateNewFile_ThrowsException() throws InvalidArgumentException {
 
         try {
             filename = "";
             appender = new FileAppender(filename);
-
-            fail("An InvalidArgumentException was expected because of an empty filename, but none was thrown");
-
-        } catch (InvalidArgumentException e) {
-            assertTrue(true);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -240,27 +240,14 @@ public class LoggerTestCases {
         verify(fileMock).append(eq(formattedMessage));
     }
 
-    @Test
-    public void testCustomConstructor_WithNullValues(){
-        try {
-            new Logger(null, null, null);
-            fail("An InvalidArgumentException was expected but none was thrown");
-
-        } catch (InvalidArgumentException e){
-            assertTrue(true);
-        }
+    @Test(expected = InvalidArgumentException.class)
+    public void testCustomConstructor_WithNullValues() throws InvalidArgumentException {
+        new Logger(null, null, null);
     }
 
-    @Test
-    public void testAddNullAppender(){
-
+    @Test(expected = InvalidArgumentException.class)
+    public void testAddNullAppender() throws InvalidArgumentException {
         Logger logger = new Logger();
-        try {
-            logger.registerAppender(null);
-            fail("An InvalidArgumentException was expected but none was thrown");
-
-        } catch (InvalidArgumentException e){
-            assertTrue(true);
-        }
+        logger.registerAppender(null);
     }
 }
