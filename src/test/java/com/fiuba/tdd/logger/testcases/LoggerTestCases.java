@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -27,16 +29,29 @@ import static org.mockito.Mockito.*;
 @PrepareForTest(Logger.class)
 public class LoggerTestCases {
 
+    protected Logger logger;
     protected final LoggerConfig defaultConfig = new LoggerConfig();
     protected Appendable consoleMock;
+    protected MessageFormatter noFormatFormatterMock;
     protected MessageFormatter formatterMock;
     protected LoggerInvoker invokerMock;
 
     @Before
     public void setupMocks(){
+        logger = new Logger();
         consoleMock = Mockito.mock(ConsoleAppender.class);
+        noFormatFormatterMock = Mockito.mock(MessageFormatter.class);
         formatterMock = Mockito.mock(MessageFormatter.class);
         invokerMock = Mockito.mock(LoggerInvoker.class);
+
+
+        when(noFormatFormatterMock.formatMessage((LoggerInvoker) any(), anyString())).thenAnswer(new Answer<String>() {
+            @Override
+            public String answer(InvocationOnMock invocation) throws Throwable {
+                Object[] args = invocation.getArguments();
+                return (String) args[1];
+            }
+        });
     }
 
 
@@ -44,11 +59,9 @@ public class LoggerTestCases {
     public void testLoggerDefaultLevelConfiguration() throws Exception {
         final String msg = "my simple message";
 
-        Logger logger = new Logger();
         logger.registerAppender(consoleMock);
 
-        when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(msg);
-        PowerMockito.whenNew(MessageFormatter.class).withAnyArguments().thenReturn(formatterMock);
+        PowerMockito.whenNew(MessageFormatter.class).withAnyArguments().thenReturn(noFormatFormatterMock);
 
         logger.debug(msg);
         verify(consoleMock, never()).append(eq(msg));
@@ -70,7 +83,6 @@ public class LoggerTestCases {
         PowerMockito.whenNew(MessageFormatter.class).withArguments(eq(defaultConfig)).thenReturn(formatterMock);
         when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
 
-        Logger logger = new Logger();
         logger.registerAppender(consoleMock);
 
         logger.info(msg);
@@ -82,11 +94,9 @@ public class LoggerTestCases {
     public void testLoggerChangeLevel() throws Exception {
         final String msg = "my simple message";
 
-        Logger logger = new Logger();
         logger.registerAppender(consoleMock);
 
-        when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(msg);
-        PowerMockito.whenNew(MessageFormatter.class).withArguments(any()).thenReturn(formatterMock);
+        PowerMockito.whenNew(MessageFormatter.class).withArguments(any()).thenReturn(noFormatFormatterMock);
 
         logger.debug(msg);
         verify(consoleMock, never()).append(eq(msg));
@@ -115,7 +125,6 @@ public class LoggerTestCases {
         PowerMockito.whenNew(MessageFormatter.class).withArguments(eq(formattedConfig)).thenReturn(formatterMock);
         when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
 
-        Logger logger = new Logger();
         logger.registerAppender(consoleMock);
 
         logger.setFormat(newformat);
@@ -135,7 +144,6 @@ public class LoggerTestCases {
         PowerMockito.whenNew(MessageFormatter.class).withArguments(eq(formattedConfig)).thenReturn(formatterMock);
         when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
 
-        Logger logger = new Logger();
         logger.registerAppender(consoleMock);
 
         logger.setSeparator(newSeparator);
@@ -157,7 +165,6 @@ public class LoggerTestCases {
         PowerMockito.whenNew(MessageFormatter.class).withAnyArguments().thenReturn(formatterMock);
         when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
 
-        Logger logger = new Logger();
         logger.registerAppender(consoleMock);
         logger.registerAppender(consoleMock_2);
         logger.registerAppender(fileMock_1);
@@ -247,7 +254,6 @@ public class LoggerTestCases {
 
     @Test(expected = InvalidArgumentException.class)
     public void testAddNullAppender() throws InvalidArgumentException {
-        Logger logger = new Logger();
         logger.registerAppender(null);
     }
 }
