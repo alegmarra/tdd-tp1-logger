@@ -2,6 +2,10 @@ package com.fiuba.tdd.logger.utils;
 
 import com.fiuba.tdd.logger.SimpleLogger;
 
+/**
+ * Clase cuya función es abstraerse de las internas de los atributos de
+ * configuración del Logger.
+ */
 public class LoggerConfig {
 
     public enum ConfigKey {LEVEL, FORMAT, SEPARATOR}

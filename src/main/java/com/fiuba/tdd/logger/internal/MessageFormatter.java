@@ -8,6 +8,10 @@ import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Clase de uso interno, cuya responsabilidad es generar el mensaje final a
+ * partir de un formato definido
+ */
 public class MessageFormatter {
 
     private final String dateFormatDeclarationPattern = ".*?%d\\{([^\\}]+)}.*?";

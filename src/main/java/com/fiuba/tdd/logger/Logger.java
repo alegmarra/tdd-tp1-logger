@@ -1,8 +1,7 @@
 package com.fiuba.tdd.logger;
 
-
-import com.fiuba.tdd.logger.internal.InvalidArgumentException;
 import com.fiuba.tdd.logger.SimpleLogger.Level;
+import com.fiuba.tdd.logger.internal.InvalidArgumentException;
 
 public interface Logger {
 

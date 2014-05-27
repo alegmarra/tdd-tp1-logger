@@ -7,6 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Clase utilizada como interfaz entre un archivo y el logger
+ */
 public class FileAppender implements com.fiuba.tdd.logger.Appendable {
 
     private final Boolean appendToEnd = true;
