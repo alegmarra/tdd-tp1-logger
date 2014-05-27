@@ -1,7 +1,7 @@
 package com.fiuba.tdd.logger.utils;
 
 import com.fiuba.tdd.logger.Appendable;
-import com.fiuba.tdd.logger.SimpleLogger;
+import com.fiuba.tdd.logger.Logger;
 import com.fiuba.tdd.logger.SimpleLogger.Level;
 import com.fiuba.tdd.logger.internal.InvalidArgumentException;
 import com.fiuba.tdd.logger.internal.Properties;
@@ -64,7 +64,7 @@ public class LoggerConfigTool {
     }
 
 
-    public void config(SimpleLogger logger) {
+    public void config(Logger logger) {
 
         logger.setLevel(level);
         logger.setFormat(format);

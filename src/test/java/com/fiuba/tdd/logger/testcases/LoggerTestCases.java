@@ -48,7 +48,7 @@ public class LoggerTestCases {
 
     @Before
     public void setupMocks(){
-        logger = new SimpleLogger();
+
         consoleMock = Mockito.mock(ConsoleAppender.class);
         fileMock = Mockito.mock(FileAppender.class);
         noFormatFormatterMock = Mockito.mock(MessageFormatter.class);
@@ -67,28 +67,14 @@ public class LoggerTestCases {
 
 
     @Test
-    public void testLoggerDefaultLevelConfiguration() throws Exception {
+    public void testLoggerConfigurationConstructor() throws Exception {
 
-        logger = new SimpleLogger();
-        logger.registerAppender(consoleMock);
-
-        PowerMockito.whenNew(MessageFormatter.class).withAnyArguments().thenReturn(noFormatFormatterMock);
-
-        logger.debug(msg);
-        verify(consoleMock, never()).append(eq(msg));
-
-        logger.info(msg);
-        verify(consoleMock).append(eq(msg));
-
-        logger.error(msg);
-        logger.warn(msg);
-        logger.fatal(msg);
-        verify(consoleMock, times(4)).append(eq(msg));
+        logger = new SimpleLogger(new LoggerConfig(format, Level.FATAL, separator));
+        assertEquals(Level.FATAL, logger.getLevel());
     }
 
     @Test
     public void testLoggerDefaultMessageFormatConfiguration() throws Exception {
-        //String formattedMessage = "10:10:10 - INFO - CustomThread - my simple message ";
 
         PowerMockito.whenNew(MessageFormatter.class).withArguments(eq(defaultConfig)).thenReturn(formatterMock);
         when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);

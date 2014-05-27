@@ -3,6 +3,10 @@ package com.fiuba.tdd.logger.internal;
 import com.fiuba.tdd.logger.SimpleLogger.Level;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 
+/**
+ *  Clase builder que permite un nivel de abstracción extra sobre el MessageFormatter.
+ *  Encapsula el uso del LoggerInvoker y el LoggerConfig
+ * */
 public class MessageFormatterBuilder {
 
     private static final int StackDepthFromLoggerInvokerToLog = 3;

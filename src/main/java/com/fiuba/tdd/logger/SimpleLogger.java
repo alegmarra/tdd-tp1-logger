@@ -24,6 +24,12 @@ public class SimpleLogger implements Logger{
         this.separator = defaultConfig.separator;
     }
 
+    public SimpleLogger(LoggerConfig config){
+        this.level = config.level;
+        this.format = config.format;
+        this.separator = config.separator;
+    }
+
     public SimpleLogger(final String format, Level level, final String separator, Appendable... outputs)
             throws InvalidArgumentException
     {

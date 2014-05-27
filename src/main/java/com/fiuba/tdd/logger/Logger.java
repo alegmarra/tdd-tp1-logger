@@ -3,6 +3,9 @@ package com.fiuba.tdd.logger;
 import com.fiuba.tdd.logger.SimpleLogger.Level;
 import com.fiuba.tdd.logger.internal.InvalidArgumentException;
 
+/**
+ * Interfaz que establece la interfaz pública minima de todas las implementaciones de Logger
+ * */
 public interface Logger {
 
     public void setLevel(Level level);
@@ -20,3 +23,4 @@ public interface Logger {
     public void error(String msg);
     public void fatal(String msg);
 }
+//
