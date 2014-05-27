@@ -1,6 +1,6 @@
 package com.fiuba.tdd.logger.testcases;
 
-import com.fiuba.tdd.logger.Logger.Level;
+import com.fiuba.tdd.logger.SimpleLogger.Level;
 import com.fiuba.tdd.logger.internal.InvalidArgumentException;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 import com.fiuba.tdd.logger.utils.LoggerConfigTool;
@@ -14,14 +14,17 @@ import static org.junit.Assert.assertTrue;
 
 public class LoggerConfigTestCases {
 
+    private final String fileFormat = "%d{HH:mm:ss} ­ %p ­ %t ­ %m";
+    private final String fileSeparator = "::";
     private final Level defaultLevel = Level.INFO;
+    private final Level fileLevel = Level.WARN;
+
     private final String defaultFormat = "%d{HH:mm:ss} %n %p %n %t %n %m ";
     private final String defaultSeparator = "-";
 
     private final String propertiesInClassPath = "loggerAsResource.properties";
     private final String partialProperties = "partialLoggerConfig.properties";
     private final String propertiesInRoot = "./loggerAsExternal.properties";
-
 
 
     @Test
@@ -39,9 +42,6 @@ public class LoggerConfigTestCases {
     @Test
     public void testConfigFromPropertiesInClasspath() {
 
-        Level fileLevel = Level.WARN;
-        String fileFormat = "%d{HH:mm:ss} ­ %p ­ %t ­ %m";
-        String fileSeparator = "::";
 
         try {
             LoggerConfigTool configTool = new LoggerConfigTool(propertiesInClassPath);
@@ -64,10 +64,6 @@ public class LoggerConfigTestCases {
     @Test
     public void testConfigFromExternalProperties() {
 
-        Level fileLevel = Level.WARN;
-        String fileFormat = "%d{HH:mm:ss} ­ %p ­ %t ­ %m";
-        String fileSeparator = "::";
-
         try {
             LoggerConfigTool configTool = new LoggerConfigTool(propertiesInRoot);
 
@@ -86,27 +82,8 @@ public class LoggerConfigTestCases {
         }
     }
 
-
-    @Test
-    public void testExceptionThrownInvalidFile() {
-
-        try {
-            LoggerConfigTool configTool = new LoggerConfigTool("");
-            fail("An exception was expected but none was thrown when trying to read an invalid file");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            fail("An InvalidArgumentException was expected a different one was thrown");
-
-        } catch (InvalidArgumentException e) {
-            assertTrue(true);
-        }
-    }
-
     @Test
     public void testPartialConfigFromFile() {
-
-        String fileFormat = "%d{HH:mm:ss} ­ %p ­ %t ­ %m";
 
         try {
             LoggerConfigTool configTool = new LoggerConfigTool(partialProperties);
@@ -128,4 +105,9 @@ public class LoggerConfigTestCases {
         }
     }
 
+    @Test( expected = InvalidArgumentException.class)
+    public void testExceptionThrownInvalidFile() throws IOException, InvalidArgumentException {
+
+        new LoggerConfigTool("");
+    }
 }

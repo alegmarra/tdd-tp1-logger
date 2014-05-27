@@ -24,10 +24,6 @@ public class FileAppenderTestCases {
     private Appendable appender = null;
     private String filename = "";
 
-    @Before
-    public void setUpFile() {
-
-    }
 
     @After
     public void cleanUpFile() throws IOException {
@@ -65,22 +61,10 @@ public class FileAppenderTestCases {
         }
     }
 
-    @Test
-    public void testCreateNewFile_ThrowsException() {
+    @Test(expected = InvalidArgumentException.class)
+    public void testCreateNewFile_ThrowsException() throws IOException, InvalidArgumentException {
 
-        try {
-            filename = "";
-            appender = new FileAppender(filename);
-
-            fail("An InvalidArgumentException was expected because of an empty filename, but none was thrown");
-
-        } catch (InvalidArgumentException e) {
-            assertTrue(true);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            fail("An InvalidArgumentException was expected because of an empty filename, but none was thrown");
-        }
+        new FileAppender("");
     }
 
     @Test

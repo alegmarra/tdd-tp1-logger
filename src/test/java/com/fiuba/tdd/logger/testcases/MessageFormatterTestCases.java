@@ -1,10 +1,11 @@
 package com.fiuba.tdd.logger.testcases;
 
-import com.fiuba.tdd.logger.Logger;
+import com.fiuba.tdd.logger.SimpleLogger;
 import com.fiuba.tdd.logger.internal.LoggerInvoker;
 import com.fiuba.tdd.logger.internal.MessageFormatter;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -34,12 +35,21 @@ public class MessageFormatterTestCases extends TestCase{
                                             " and method %M" +
                                             " and date %d{H:m:s}";
 
+    protected String expected;
+    protected String formatted;
+
+    @Before
+    public void setup(){
+        expected = "";
+        formatted = "";
+    }
+
+
     @Test
     public void testFormatMessage_NoFormat(){
 
         LoggerInvoker invoker = new LoggerInvoker(Thread.currentThread().getStackTrace()[0]);
-
-        MessageFormatter mf = new MessageFormatter(new LoggerConfig(noFormat, Logger.Level.INFO, ","));
+        MessageFormatter mf = new MessageFormatter(new LoggerConfig(noFormat, SimpleLogger.Level.INFO, ","));
 
         assertEquals("Formatter modified an unformatted string", noFormat, mf.formatMessage(invoker, ""));
     }
@@ -48,11 +58,11 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithLine(){
 
-        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithLineNumber, Logger.Level.INFO, ","));
+        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithLineNumber, SimpleLogger.Level.INFO, ","));
 
         Integer currentLine = Thread.currentThread().getStackTrace()[1].getLineNumber();
-        String expected = "show invoker line :: " + (currentLine + 2 );
-        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
+        expected = "show invoker line :: " + (currentLine + 2 );
+        formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
         assertEquals(expected, formatted);
     }
@@ -60,11 +70,11 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithFileName(){
 
-        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithFileName, Logger.Level.INFO, ","));
+        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithFileName, SimpleLogger.Level.INFO, ","));
 
         String fileName = Thread.currentThread().getStackTrace()[1].getFileName();
-        String expected = "show invoker filename :: " + fileName;
-        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
+        expected = "show invoker filename :: " + fileName;
+        formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
         assertEquals(expected, formatted);
     }
@@ -72,10 +82,10 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithLevel(){
 
-        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithLevel, Logger.Level.INFO, ","));
+        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithLevel, SimpleLogger.Level.INFO, ","));
 
-        String expected = "show level :: INFO";
-        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
+        expected = "show level :: INFO";
+        formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
         assertEquals(expected, formatted);
     }
@@ -83,11 +93,11 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithMethodName(){
 
-        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithMethodName, Logger.Level.INFO, ","));
+        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithMethodName, SimpleLogger.Level.INFO, ","));
 
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
-        String expected = "show invoker method :: " + methodName;
-        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
+        expected = "show invoker method :: " + methodName;
+        formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
         assertEquals(expected, formatted);
     }
@@ -95,11 +105,11 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithMessage(){
 
-        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithMessage, Logger.Level.INFO, ","));
+        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithMessage, SimpleLogger.Level.INFO, ","));
 
         String message = "My_Custom Message";
-        String expected = "show message :: " + message;
-        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), message);
+        expected = "show message :: " + message;
+        formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), message);
 
         assertEquals(expected, formatted);
     }
@@ -107,10 +117,10 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithPercent(){
 
-        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithPercent, Logger.Level.INFO, ","));
+        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithPercent, SimpleLogger.Level.INFO, ","));
 
-        String expected = "show percent :: %";
-        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
+        expected = "show percent :: %";
+        formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
         assertEquals(expected, formatted);
     }
@@ -118,10 +128,10 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithSeparator(){
 
-        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithSeparator, Logger.Level.INFO, "-_-"));
+        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithSeparator, SimpleLogger.Level.INFO, "-_-"));
 
-        String expected = "show separator :: -_-";
-        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
+        expected = "show separator :: -_-";
+        formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
         assertEquals(expected, formatted);
     }
@@ -129,11 +139,11 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithThread(){
 
-        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithThread, Logger.Level.INFO, ","));
+        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithThread, SimpleLogger.Level.INFO, ","));
 
         String thread = Thread.currentThread().getName();
-        String expected = "show thread :: " + thread;
-        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
+        expected = "show thread :: " + thread;
+        formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
         assertEquals(expected, formatted);
     }
@@ -141,15 +151,15 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithDate(){
 
-        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithDate, Logger.Level.INFO, ","));
+        MessageFormatter mf = new MessageFormatter(new LoggerConfig(formatWithDate, SimpleLogger.Level.INFO, ","));
 
         Calendar calendar = new GregorianCalendar();
         String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
         String month = String.valueOf(calendar.get(Calendar.MONTH) +1 );
         String year = String.valueOf(calendar.get(Calendar.YEAR));
 
-        String expected = "show invoker method :: " + day +"/"+ month +"/"+ year ;
-        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
+        expected = "show invoker method :: " + day +"/"+ month +"/"+ year ;
+        formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), "");
 
         assertEquals("Formatter failed at formatting the date", expected, formatted);
     }
@@ -158,9 +168,9 @@ public class MessageFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_AllReplaced(){
 
-        String level = Logger.Level.DEBUG.name();
+        String level = SimpleLogger.Level.DEBUG.name();
         String separator = ",";
-        MessageFormatter mf = new MessageFormatter(new LoggerConfig(integrationFormat, Logger.Level.DEBUG, separator));
+        MessageFormatter mf = new MessageFormatter(new LoggerConfig(integrationFormat, SimpleLogger.Level.DEBUG, separator));
 
 
 
@@ -175,10 +185,10 @@ public class MessageFormatterTestCases extends TestCase{
         String minute = String.valueOf(calendar.get(Calendar.MINUTE));
         String second = String.valueOf(calendar.get(Calendar.SECOND));
 
-        String expected = String.format("Simple text and level %s and thread %s and message '%s' and percent %% and separator %s and filename %s and line %s and method %s and date %s:%s:%s",
+        expected = String.format("Simple text and level %s and thread %s and message '%s' and percent %% and separator %s and filename %s and line %s and method %s and date %s:%s:%s",
                                         level, thread, message, separator, fileName, Integer.toString(currentLine+10), methodName, hour, minute, second);
 
-        String formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), message);
+        formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1]), message);
 
         assertEquals("Formatter failed with multiple replacements", expected, formatted);
     }
