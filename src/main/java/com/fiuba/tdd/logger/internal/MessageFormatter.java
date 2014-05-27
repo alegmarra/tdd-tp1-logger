@@ -1,6 +1,6 @@
 package com.fiuba.tdd.logger.internal;
 
-import com.fiuba.tdd.logger.Logger.Level;
+import com.fiuba.tdd.logger.SimpleLogger.Level;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 
 import java.text.SimpleDateFormat;
