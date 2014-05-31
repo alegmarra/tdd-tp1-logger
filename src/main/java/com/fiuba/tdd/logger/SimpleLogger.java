@@ -1,47 +1,70 @@
 package com.fiuba.tdd.logger;
 
-import com.fiuba.tdd.logger.internal.InvalidArgumentException;
-import com.fiuba.tdd.logger.internal.MessageFormatterBuilder;
+import com.fiuba.tdd.logger.appenders.Appendable;
+import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
+import com.fiuba.tdd.logger.filters.Filter;
+import com.fiuba.tdd.logger.utils.Configurable;
+import com.fiuba.tdd.logger.format.MessageFormatterBuilder;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SimpleLogger implements Logger{
+public class SimpleLogger implements Configurable{
 
-    public enum Level {DEBUG, INFO, WARN, ERROR, FATAL, OFF}
-
+    private String name;
     private Level level;
     private String format;
     private String separator;
+
     private List<Appendable> outputs = new LinkedList<>();
+    private List<Filter> filters = new LinkedList<>();
 
-    public SimpleLogger(){
-        LoggerConfig defaultConfig = new LoggerConfig();
-        this.level = defaultConfig.level;
-        this.format = defaultConfig.format;
-        this.separator = defaultConfig.separator;
+    public SimpleLogger(final String name) throws InvalidArgumentException {
+        setName(name);
+        setConfig(new LoggerConfig());
     }
 
-    public SimpleLogger(LoggerConfig config){
-        this.level = config.level;
-        this.format = config.format;
-        this.separator = config.separator;
+    public SimpleLogger(final String name, LoggerConfig config) throws InvalidArgumentException {
+        setName(name);
+        setConfig(config);
     }
 
-    public SimpleLogger(final String format, Level level, final String separator, Appendable... outputs)
+    public SimpleLogger(final String name, final String format, Level level, final String separator, Appendable... outputs)
             throws InvalidArgumentException
     {
-        if (format == null || level == null || separator == null)
-            throw new InvalidArgumentException("Null value given for required argument. Format, level and separator should not be null");
-
-        this.format = format;
-        this.level = level;
-        this.separator = separator;
+        setName(name);
+        setConfig(new LoggerConfig(format, level, separator));
 
         for (Appendable appender : outputs)
             registerAppender(appender);
+    }
+
+
+    public void trace(String msg){
+        log(msg, Level.TRACE);
+    }
+
+    public void debug(String msg){
+        log(msg, Level.DEBUG);
+    }
+
+    public void info(String msg){
+        log(msg, Level.INFO);
+    }
+
+    public void warn(String msg){
+        log(msg, Level.WARN);
+    }
+
+    public void error(String msg){
+        log(msg, Level.ERROR);
+    }
+
+    public void fatal(String msg){
+        log(msg, Level.FATAL);
     }
 
     public void setLevel(Level level){
@@ -65,42 +88,61 @@ public class SimpleLogger implements Logger{
         outputs.add(appender);
     }
 
-    public void debug(String msg){
-        log(msg, Level.DEBUG);
-    }
+    public void registerFilter(Filter filter) throws InvalidArgumentException {
+        if (filter == null)
+            throw new InvalidArgumentException("Output appenders cannot be null");
 
-    public void info(String msg){
-        log(msg, Level.INFO);
-    }
-
-    public void warn(String msg){
-        log(msg, Level.WARN);
-    }
-
-    public void error(String msg){
-        log(msg, Level.ERROR);
-    }
-
-    public void fatal(String msg){
-        log(msg, Level.FATAL);
+        filters.add(filter);
     }
 
     private void log(String msg, Level level) {
-        if (level.ordinal() < this.level.ordinal())
+        if (skipMessage(msg, level))
             return;
 
-        MessageFormatterBuilder builder = new MessageFormatterBuilder();
-        builder.withConfig(this.format, level, this.separator).build();
+        try {
 
-        final String finalMsg = builder.formatMessage(msg);
+            MessageFormatterBuilder builder = new MessageFormatterBuilder();
+            builder.withConfig(this.format, level, this.separator).build();
 
-        for ( Appendable output : outputs ) {
-            try {
-                output.append(finalMsg);
-            } catch (IOException e) {
-                e.printStackTrace();
+            final String finalMsg = builder.formatMessage(msg, this.name);
+
+            for ( Appendable output : outputs ) {
+                try {
+                    output.append(finalMsg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+
+        } catch (InvalidArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Boolean skipMessage(final String msg, Level level) {
+        boolean skipped = false;
+
+        skipped = level.ordinal() < this.level.ordinal();
+
+        Iterator<Filter> it = filters.iterator();
+        while (it.hasNext() && !skipped){
+            skipped = !it.next().allows(msg);
         }
 
+        return skipped;
+    }
+
+    private void setConfig(LoggerConfig defaultConfig) {
+        this.level = defaultConfig.level;
+        this.format = defaultConfig.format;
+        this.separator = defaultConfig.separator;
+    }
+
+
+    private void setName(String name) throws InvalidArgumentException {
+        if (name == null || name.equals(""))
+            throw new InvalidArgumentException("Invalid name");
+
+        this.name = name;
     }
 }
