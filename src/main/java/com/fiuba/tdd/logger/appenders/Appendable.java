@@ -1,4 +1,4 @@
-package com.fiuba.tdd.logger;
+package com.fiuba.tdd.logger.appenders;
 
 import java.io.IOException;
 

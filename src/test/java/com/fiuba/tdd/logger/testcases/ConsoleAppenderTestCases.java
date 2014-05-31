@@ -1,7 +1,7 @@
 package com.fiuba.tdd.logger.testcases;
 
-import com.fiuba.tdd.logger.Appendable;
-import com.fiuba.tdd.logger.writers.ConsoleAppender;
+import com.fiuba.tdd.logger.appenders.Appendable;
+import com.fiuba.tdd.logger.appenders.ConsoleAppender;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class ConsoleAppenderTestCases {
 
     @Test
     public void testSimpleMessageAppend() {
-        String message = "My Custom Text Message";
+        String message = "My Custom Text message";
         try {
             appender.append(message);
             assertEquals(message, outContent.toString().trim());
@@ -61,7 +61,7 @@ public class ConsoleAppenderTestCases {
         try {
 
             String firstMessage = "myFirstMessage";
-            String secondMessage = "my Second Message";
+            String secondMessage = "my Second message";
 
             appender.append(firstMessage);
             secondaryAppender.append(secondMessage);

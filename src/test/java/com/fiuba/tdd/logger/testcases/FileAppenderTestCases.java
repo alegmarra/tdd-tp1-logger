@@ -1,8 +1,8 @@
 package com.fiuba.tdd.logger.testcases;
 
-import com.fiuba.tdd.logger.Appendable;
-import com.fiuba.tdd.logger.internal.InvalidArgumentException;
-import com.fiuba.tdd.logger.writers.FileAppender;
+import com.fiuba.tdd.logger.appenders.Appendable;
+import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
+import com.fiuba.tdd.logger.appenders.FileAppender;
 import org.junit.After;
 import org.junit.Test;
 

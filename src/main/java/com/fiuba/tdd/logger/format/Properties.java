@@ -1,4 +1,4 @@
-package com.fiuba.tdd.logger.internal;
+package com.fiuba.tdd.logger.format;
 
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 

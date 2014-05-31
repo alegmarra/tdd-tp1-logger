@@ -1,6 +1,4 @@
-package com.fiuba.tdd.logger.writers;
-
-import com.fiuba.tdd.logger.Appendable;
+package com.fiuba.tdd.logger.appenders;
 
 import java.io.PrintStream;
 

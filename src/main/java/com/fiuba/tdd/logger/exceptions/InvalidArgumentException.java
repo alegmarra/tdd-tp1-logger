@@ -1,4 +1,4 @@
-package com.fiuba.tdd.logger.internal;
+package com.fiuba.tdd.logger.exceptions;
 
 /**
  * Excepción lanzada cuando los argumentos son inválidos.

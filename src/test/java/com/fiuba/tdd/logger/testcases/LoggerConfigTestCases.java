@@ -1,7 +1,7 @@
 package com.fiuba.tdd.logger.testcases;
 
-import com.fiuba.tdd.logger.SimpleLogger.Level;
-import com.fiuba.tdd.logger.internal.InvalidArgumentException;
+import com.fiuba.tdd.logger.utils.Configurable.Level;
+import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 import com.fiuba.tdd.logger.utils.LoggerConfigTool;
 import org.junit.Test;

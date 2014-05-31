@@ -1,4 +1,4 @@
-package com.fiuba.tdd.logger.internal;
+package com.fiuba.tdd.logger.format;
 
 
 /**
@@ -10,16 +10,19 @@ package com.fiuba.tdd.logger.internal;
  * <li> línea del archivo </li>
  * <li> nombre de la clase </li>
  * <li> nombre del método </li>
+ * <li> nombre del logger </li>
  * </ul>
  */
 public class LoggerInvoker {
 
     private StackTraceElement invoker;
+    private String name;
     private String thread;
 
-    public LoggerInvoker(StackTraceElement stackTraceElement){
+    public LoggerInvoker(StackTraceElement stackTraceElement, String invokerName){
         invoker = stackTraceElement;
         thread = Thread.currentThread().getName();
+        name = invokerName;
     }
 
     public String getLine(){
@@ -34,8 +37,8 @@ public class LoggerInvoker {
         return invoker.getFileName();
     }
 
-    public String getClassName(){
-        return invoker.getClassName();
+    public String getName(){
+        return name;
     }
 
     public String getThread(){

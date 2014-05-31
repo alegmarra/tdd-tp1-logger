@@ -1,6 +1,6 @@
-package com.fiuba.tdd.logger.writers;
+package com.fiuba.tdd.logger.appenders;
 
-import com.fiuba.tdd.logger.internal.InvalidArgumentException;
+import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 /**
  * Clase utilizada como interfaz entre un archivo y el logger
  */
-public class FileAppender implements com.fiuba.tdd.logger.Appendable {
+public class FileAppender implements Appendable {
 
     private final Boolean appendToEnd = true;
     private File outputFile;
