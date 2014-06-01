@@ -36,7 +36,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void trace(String s) {
-
+        logger.trace(s);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void debug(String s) {
-
+        logger.debug(s);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void info(String s) {
-
+        logger.info(s);
     }
 
     @Override
@@ -216,7 +216,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void warn(String s) {
-
+        logger.warn(s);
     }
 
     @Override
@@ -276,7 +276,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void error(String s) {
-
+        logger.error(s);
     }
 
     @Override
@@ -331,26 +331,26 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void setLevel(Level level) {
-
+        logger.setLevel(level);
     }
 
     @Override
     public void setFormat(String format) {
-
+        logger.setFormat(format);
     }
 
     @Override
     public void setSeparator(String separator) {
-
+        logger.setSeparator(separator);
     }
 
     @Override
     public void registerAppender(com.fiuba.tdd.logger.appenders.Appendable appender) throws InvalidArgumentException {
-
+        logger.registerAppender(appender);
     }
 
     @Override
     public void registerFilter(Filter filter) throws InvalidArgumentException {
-
+        logger.registerFilter(filter);
     }
 }
