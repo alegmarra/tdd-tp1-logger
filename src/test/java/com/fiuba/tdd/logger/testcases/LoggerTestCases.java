@@ -75,7 +75,7 @@ public class LoggerTestCases {
     }
 
 
-     @Test
+    @Test
     public void testLoggerDefaultMessageFormatConfiguration() throws Exception {
 
         PowerMockito.whenNew(StringFormatter.class).withArguments(eq(defaultConfig), any()).thenReturn(formatterMock);
