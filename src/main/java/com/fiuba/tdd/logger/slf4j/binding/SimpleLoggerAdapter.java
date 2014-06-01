@@ -41,17 +41,17 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void trace(String s, Object o) {
-
+        trace(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o));
     }
 
     @Override
     public void trace(String s, Object o, Object o2) {
-
+        trace(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o, o2));
     }
 
     @Override
     public void trace(String s, Object... objects) {
-
+        trace(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, objects));
     }
 
     @Override
@@ -101,17 +101,17 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void debug(String s, Object o) {
-
+        debug(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o));
     }
 
     @Override
     public void debug(String s, Object o, Object o2) {
-
+        debug(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o, o2));
     }
 
     @Override
     public void debug(String s, Object... objects) {
-
+        debug(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, objects));
     }
 
     @Override
@@ -161,17 +161,17 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void info(String s, Object o) {
-
+        info(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o));
     }
 
     @Override
     public void info(String s, Object o, Object o2) {
-
+        info(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o, o2));
     }
 
     @Override
     public void info(String s, Object... objects) {
-
+        info(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, objects));
     }
 
     @Override
@@ -221,17 +221,17 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void warn(String s, Object o) {
-
-    }
-
-    @Override
-    public void warn(String s, Object... objects) {
-
+        warn(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o));
     }
 
     @Override
     public void warn(String s, Object o, Object o2) {
+        warn(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o, o2));
+    }
 
+    @Override
+    public void warn(String s, Object... objects) {
+        warn(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, objects));
     }
 
     @Override
@@ -281,17 +281,17 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void error(String s, Object o) {
-
+        error(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o));
     }
 
     @Override
     public void error(String s, Object o, Object o2) {
-
+        error(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o, o2));
     }
 
     @Override
     public void error(String s, Object... objects) {
-
+        error(ParametrizedMessageInterpreter.replaceMessageWithArgs(s, objects));
     }
 
     @Override
