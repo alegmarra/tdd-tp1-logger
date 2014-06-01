@@ -90,7 +90,7 @@ public class SimpleLogger implements Configurable{
 
     public void registerFilter(Filter filter) throws InvalidArgumentException {
         if (filter == null)
-            throw new InvalidArgumentException("Output appenders cannot be null");
+            throw new InvalidArgumentException("Filters cannot be null");
 
         filters.add(filter);
     }
