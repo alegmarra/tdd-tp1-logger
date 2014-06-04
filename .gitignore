@@ -17,3 +17,6 @@ target/
 
 # Misc
 bin/
+out/
+tdd-tp1-logger.tar.gz
+
