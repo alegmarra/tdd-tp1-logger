@@ -67,8 +67,11 @@ public class PropertiesParser implements ConfigParser{
     }
 
     private Map<LoggerConfig.ConfigKey, String> parseConfigElement(String line) {
+        Instantiator instantiator = new Instantiator();
         final String configFormat = String.format(configRegexPattern, LoggerConfig.ConfigKey.FORMAT.name(), LoggerConfig.ConfigKey.LEVEL, LoggerConfig.ConfigKey.SEPARATOR);
 
+        // Somewhere over the rainbow...
+        // Somewhere over here, calls to Instantiator should be done to create Filters and Appendables
         final Matcher matcher = Pattern.compile(configFormat).matcher(line);
         if (matcher.matches()){
 
