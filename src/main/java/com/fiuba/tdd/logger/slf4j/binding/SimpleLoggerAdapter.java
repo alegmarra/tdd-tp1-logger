@@ -21,17 +21,20 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
         } catch (InvalidArgumentException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    private boolean isLevelEnabled(Level level) {
+        return logger.getLevel().ordinal() <= level.ordinal() ;
     }
 
     @Override
     public String getName() {
-        return null;
+        return logger.getName();
     }
 
     @Override
     public boolean isTraceEnabled() {
-        return false;
+        return isLevelEnabled(Level.TRACE);
     }
 
     @Override
@@ -61,7 +64,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public boolean isTraceEnabled(Marker marker) {
-        return false;
+        return isLevelEnabled(Level.TRACE);
     }
 
     @Override
@@ -91,7 +94,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public boolean isDebugEnabled() {
-        return false;
+        return isLevelEnabled(Level.DEBUG);
     }
 
     @Override
@@ -121,7 +124,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public boolean isDebugEnabled(Marker marker) {
-        return false;
+        return isLevelEnabled(Level.DEBUG);
     }
 
     @Override
@@ -151,7 +154,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public boolean isInfoEnabled() {
-        return false;
+        return isLevelEnabled(Level.INFO);
     }
 
     @Override
@@ -181,7 +184,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public boolean isInfoEnabled(Marker marker) {
-        return false;
+        return isLevelEnabled(Level.INFO);
     }
 
     @Override
@@ -211,7 +214,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public boolean isWarnEnabled() {
-        return false;
+        return isLevelEnabled(Level.WARN);
     }
 
     @Override
@@ -241,7 +244,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public boolean isWarnEnabled(Marker marker) {
-        return false;
+        return isLevelEnabled(Level.WARN);
     }
 
     @Override
@@ -271,7 +274,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public boolean isErrorEnabled() {
-        return false;
+        return isLevelEnabled(Level.ERROR);
     }
 
     @Override
@@ -301,7 +304,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public boolean isErrorEnabled(Marker marker) {
-        return false;
+        return isLevelEnabled(Level.ERROR);
     }
 
     @Override

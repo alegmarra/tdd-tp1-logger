@@ -97,6 +97,8 @@ public class SimpleLogger implements Configurable{
 
     public Level getLevel(){ return Level.valueOf(this.level.name());}
 
+    public String getName(){ return name;}
+
     public void setFormat(final String format){
         this.format = format;
     }
