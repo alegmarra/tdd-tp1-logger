@@ -1,6 +1,5 @@
 package com.fiuba.tdd.logger.utils;
 
-import com.fiuba.tdd.logger.appenders.*;
 import com.fiuba.tdd.logger.appenders.Appendable;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.filters.Filter;
@@ -43,7 +42,7 @@ public class LoggerConfig {
         this.separator = separator;
     }
 
-    public List<Appendable> getAppenders(Appendable appender) {
+    public List<Appendable> getAppenders() {
         return appenders;
     }
 
