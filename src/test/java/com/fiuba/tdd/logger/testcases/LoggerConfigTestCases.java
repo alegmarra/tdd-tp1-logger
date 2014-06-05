@@ -3,7 +3,7 @@ package com.fiuba.tdd.logger.testcases;
 import com.fiuba.tdd.logger.utils.Configurable.Level;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
-import com.fiuba.tdd.logger.utils.LoggerConfigTool;
+import com.fiuba.tdd.logger.utils.LoggerConfigBuilder;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -27,9 +27,9 @@ public class LoggerConfigTestCases {
 
 
     @Test
-    public void testDefaultLoggerConfig() {
+    public void testDefaultLoggerConfig() throws IOException, InvalidArgumentException {
 
-        LoggerConfigTool configTool = new LoggerConfigTool();
+        LoggerConfigBuilder configTool = new LoggerConfigBuilder();
 
         LoggerConfig config = configTool.getConfig();
 
@@ -43,7 +43,7 @@ public class LoggerConfigTestCases {
 
 
         try {
-            LoggerConfigTool configTool = new LoggerConfigTool(propertiesInClassPath);
+            LoggerConfigBuilder configTool = new LoggerConfigBuilder();
 
             LoggerConfig config = configTool.getConfig();
 
@@ -64,7 +64,7 @@ public class LoggerConfigTestCases {
     public void testConfigFromExternalProperties() {
 
         try {
-            LoggerConfigTool configTool = new LoggerConfigTool(propertiesInRoot);
+            LoggerConfigBuilder configTool = new LoggerConfigBuilder();
 
             LoggerConfig config = configTool.getConfig();
 
@@ -85,7 +85,7 @@ public class LoggerConfigTestCases {
     public void testPartialConfigFromFile() {
 
         try {
-            LoggerConfigTool configTool = new LoggerConfigTool(partialProperties);
+            LoggerConfigBuilder configTool = new LoggerConfigBuilder();
 
             LoggerConfig config = configTool.getConfig();
 
@@ -104,9 +104,4 @@ public class LoggerConfigTestCases {
         }
     }
 
-    @Test( expected = InvalidArgumentException.class)
-    public void testExceptionThrownInvalidFile() throws IOException, InvalidArgumentException {
-
-        new LoggerConfigTool("");
-    }
 }

@@ -1,7 +1,13 @@
 package com.fiuba.tdd.logger.utils;
 
+import com.fiuba.tdd.logger.appenders.*;
+import com.fiuba.tdd.logger.appenders.Appendable;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
+import com.fiuba.tdd.logger.filters.Filter;
 import com.fiuba.tdd.logger.utils.Configurable.Level;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Clase cuya función es abstraerse de las internas de los atributos de
@@ -14,6 +20,9 @@ public class LoggerConfig {
     final public Level level;
     final public String format;
     final public String separator;
+
+    private List<Appendable> appenders = new LinkedList<>();
+    private List<Filter> filters = new LinkedList<>();
 
     public LoggerConfig(){
 
@@ -33,6 +42,24 @@ public class LoggerConfig {
         this.format = format;
         this.separator = separator;
     }
+
+    public List<Appendable> getAppenders(Appendable appender) {
+        return appenders;
+    }
+
+    public void addAppender(Appendable appender) {
+        this.appenders.add(appender);
+    }
+
+
+    public List<Filter> getFilters() {
+        return filters;
+    }
+
+    public void addFilter(Filter filter) {
+        this.filters.add(filter);
+    }
+
 
     @Override
     public boolean equals(Object obj){
