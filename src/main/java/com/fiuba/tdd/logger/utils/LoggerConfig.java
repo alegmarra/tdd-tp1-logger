@@ -29,6 +29,7 @@ public class LoggerConfig {
         this.level = Level.INFO;
         this.format = "%d{HH:mm:ss} %n %p %n %t %n %m ";
         this.separator = "-";
+        this.appenders.add(new ConsoleAppender());
     }
 
     public LoggerConfig(final String format, final Level level, final String separator)
@@ -43,7 +44,7 @@ public class LoggerConfig {
         this.separator = separator;
     }
 
-    public List<Appendable> getAppenders(Appendable appender) {
+    public List<Appendable> getAppenders() {
         return appenders;
     }
 

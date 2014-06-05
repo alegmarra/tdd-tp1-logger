@@ -132,10 +132,14 @@ public class SimpleLogger implements Configurable{
         return skipped;
     }
 
-    private void setConfig(LoggerConfig defaultConfig) {
+    private void setConfig(LoggerConfig defaultConfig) throws InvalidArgumentException {
         this.level = defaultConfig.level;
         this.format = defaultConfig.format;
         this.separator = defaultConfig.separator;
+
+        for ( Appendable output : defaultConfig.getAppenders() ) {
+            registerAppender(output);
+        }
     }
 
 
