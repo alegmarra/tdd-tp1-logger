@@ -66,7 +66,7 @@ public class LoggerConfigBuilder {
         String configFileName = "";
         int retries = 0;
         do {
-            configFileName = configPrefix.concat(supportedExtensions[retries]);
+            configFileName = configPrefix.concat(supportedExtensions[retries++]);
             properties = Thread.currentThread().getContextClassLoader().getResource(configFileName);
         } while (properties == null && retries< supportedExtensions.length);
         return properties;

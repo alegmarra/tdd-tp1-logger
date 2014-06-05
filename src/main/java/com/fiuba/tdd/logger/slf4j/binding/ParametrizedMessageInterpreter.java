@@ -30,10 +30,10 @@ public class ParametrizedMessageInterpreter {
                  indexOfParametrizeToken != -1) &&
                 i < args.length ) {
 
-            // Then there's a escaped token that should be replaced first
-            // without increasing i (args' index)
             if (indexOfEscapeToken < indexOfParametrizeToken &&
                 indexOfEscapeToken > -1 ) {
+                // Then there's a escaped token that should be replaced first
+                // without increasing i (args' index)
                 replaceArgument = parametrizeToken;
                 replacedLength = escapedParametrizeToken.length();
                 indexOf = indexOfEscapeToken;
