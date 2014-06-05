@@ -1,23 +1,16 @@
 package com.fiuba.tdd.logger.utils;
 
 import com.fiuba.tdd.logger.appenders.Appendable;
+import com.fiuba.tdd.logger.appenders.ConsoleAppender;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.exceptions.UnsuportedFormatException;
 import com.fiuba.tdd.logger.filters.Filter;
 import com.fiuba.tdd.logger.format.parser.ConfigParser;
-import com.fiuba.tdd.logger.format.parser.PropertiesParser;
 import com.fiuba.tdd.logger.format.parser.PropertiesParserFactory;
-import com.fiuba.tdd.logger.utils.Configurable.Level;
-import com.fiuba.tdd.logger.utils.LoggerConfig.ConfigKey;
-import com.fiuba.tdd.logger.appenders.ConsoleAppender;
 import org.apache.commons.io.FilenameUtils;
-import org.xml.sax.InputSource;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 

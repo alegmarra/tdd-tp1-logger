@@ -11,8 +11,10 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class XmlPropertiesParserTestCases {
@@ -31,10 +33,17 @@ public class XmlPropertiesParserTestCases {
     @Test
     public void test() throws IOException, InvalidArgumentException {
 
-        LoggerConfig config = parser.parseConfigFile(inputFile);
-        assertTrue(config.level.equals(Configurable.Level.valueOf("ERROR")));
-        assertEquals(2,config.getAppenders().size());
-        assertEquals(1,config.getFilters().size());
+        List<LoggerConfig> configs = parser.parseConfigFile(inputFile);
+
+        assertNotNull(configs.get(0));
+        assertTrue(configs.get(0).level.equals(Configurable.Level.valueOf("ERROR")));
+        assertEquals(2, configs.get(0).getAppenders().size());
+        assertEquals(1, configs.get(0).getFilters().size());
+
+        assertNotNull(configs.get(1));
+        assertTrue(configs.get(1).level.equals(Configurable.Level.valueOf("INFO")));
+        assertEquals(1, configs.get(1).getAppenders().size());
+        assertEquals(1, configs.get(1).getFilters().size());
     }
 
 }

@@ -1,12 +1,17 @@
 package com.fiuba.tdd.logger.format.parser;
 
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
+import com.fiuba.tdd.logger.format.parser.model.ConfigDto;
+import com.fiuba.tdd.logger.format.parser.model.LoggerProperties;
 import com.fiuba.tdd.logger.utils.Configurable;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 import com.fiuba.tdd.logger.utils.LoggerConfig.ConfigKey;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,33 +33,64 @@ public class PropertiesParser implements ConfigParser{
 
     public PropertiesParser(){}
 
-    public LoggerConfig parseConfigFile(InputStream config)
+    public List<LoggerConfig> parseConfigFile(InputStream config)
             throws InvalidArgumentException, IOException
     {
-        Map<LoggerConfig.ConfigKey, String> configValues = new HashMap<>();
-        BufferedReader br = null;
-        try {
-            if (config == null)
-                throw new InvalidArgumentException("Config input file was null");
 
-            br = new BufferedReader(new InputStreamReader(config));
-            String currentLine;
-            while ((currentLine = br.readLine()) != null) {
-                Map<ConfigKey, String> entry = parseConfigElement(currentLine);
+        List<LoggerConfig> loggerConfigs = new ArrayList<>();
 
-                if (entry != null){
-                    configValues.putAll(entry);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
+        LoggerProperties logger = new LoggerProperties();
+        logger = parseLoggerProperties(config);
 
-        } finally {
-            if (br != null) br.close();
+        for (ConfigDto configDto: logger.configs){
+            LoggerConfig parsedConfig = new LoggerConfig(configDto.format,
+                    Configurable.Level.valueOf(configDto.level),
+                    configDto.separator);
+
+            addAppenders(configDto, parsedConfig);
+            addFilters(configDto, parsedConfig);
+
+
+            loggerConfigs.add(parsedConfig);
         }
 
-        return createConfigFromMap(configValues);
+//        Map<LoggerConfig.ConfigKey, String> configValues = new HashMap<>();
+//        BufferedReader br = null;
+//        try {
+//            if (config == null)
+//                throw new InvalidArgumentException("Config input file was null");
+//
+//            br = new BufferedReader(new InputStreamReader(config));
+//            String currentLine;
+//            while ((currentLine = br.readLine()) != null) {
+//                Map<ConfigKey, String> entry = parseConfigElement(currentLine);
+//
+//                if (entry != null){
+//                    configValues.putAll(entry);
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw e;
+//
+//        } finally {
+//            if (br != null) br.close();
+//        }
+//
+//        return createConfigFromMap(configValues);
+        return loggerConfigs;
+    }
+
+    private void addFilters(ConfigDto configDto, LoggerConfig parsedConfig) {
+
+    }
+
+    private void addAppenders(ConfigDto configDto, LoggerConfig parsedConfig) {
+
+    }
+
+    private LoggerProperties parseLoggerProperties(InputStream config) {
+        return null; // TODO
     }
 
     private LoggerConfig createConfigFromMap(Map<ConfigKey, String> configValues) throws InvalidArgumentException {
@@ -67,7 +103,7 @@ public class PropertiesParser implements ConfigParser{
     }
 
     private Map<LoggerConfig.ConfigKey, String> parseConfigElement(String line) {
-        Instantiator instantiator = new Instantiator();
+
         final String configFormat = String.format(configRegexPattern, LoggerConfig.ConfigKey.FORMAT.name(), LoggerConfig.ConfigKey.LEVEL, LoggerConfig.ConfigKey.SEPARATOR);
 
         // Somewhere over the rainbow...

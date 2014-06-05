@@ -1,17 +1,27 @@
 <?xml version="1.0"?>
 <loggerProperties>
-    <config name="simple">
+    <config name="complex">
         <format>%d{HH:mm:ss} ­ %p ­ %t ­ %m</format>
         <level>ERROR</level>
         <separator>,</separator>
-            <appender implementation="com.fiuba.tdd.logger.appenders.FileAppender">
-                    <param type="java.lang.String">test_fileLogger.log</param>
-            </appender>
-            <appender implementation="com.fiuba.tdd.logger.appenders.ConsoleAppender"></appender>
+        <appender implementation="com.fiuba.tdd.logger.appenders.FileAppender">
+            <param type="java.lang.String">test_fileLogger.log</param>
+        </appender>
+        <appender implementation="com.fiuba.tdd.logger.appenders.ConsoleAppender"/>
 
-            <filter implementation="com.foo.bar.Simplefilter.class">
-                    <param type="java.lang.String">myformat::%d</param>
-            </filter>
-            <filter implementation="com.fiuba.tdd.logger.filters.PatternFilter"></filter>
+        <filter implementation="com.foo.bar.Simplefilter.class">
+            <param type="java.lang.String">myformat::%d</param>
+        </filter>
+        <filter implementation="com.fiuba.tdd.logger.filters.PatternFilter"/>
+    </config>
+    <config name="simple">
+        <format>%d{HH:mm:ss} ­ %p ­ %t ­ %m</format>
+        <level>INFO</level>
+        <separator>::</separator>
+        <appender implementation="com.fiuba.tdd.logger.appenders.ConsoleAppender"/>
+        <filter implementation="com.fiuba.tdd.logger.filters.PatternFilter"/>
     </config>
 </loggerProperties>
+
+
+

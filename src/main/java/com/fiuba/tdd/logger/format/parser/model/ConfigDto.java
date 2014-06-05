@@ -4,8 +4,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import java.util.List;
 
-@XmlSeeAlso({AppenderImp.class, FilterImp.class})
-public class Config {
+@XmlSeeAlso({AppenderDto.class, FilterDto.class})
+public class ConfigDto {
 
     @XmlElement
     public String format;
@@ -17,9 +17,9 @@ public class Config {
     public   String separator;
 
     @XmlElement(name="appender")
-    public  List<AppenderImp> appenders;
+    public  List<AppenderDto> appenders;
 
     @XmlElement(name="filter")
-    public List<FilterImp> filters;
+    public List<FilterDto> filters;
 
 }

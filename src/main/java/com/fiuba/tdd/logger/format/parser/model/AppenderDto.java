@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FilterImp {
+public class AppenderDto {
 
     @XmlAttribute
     public String implementation;

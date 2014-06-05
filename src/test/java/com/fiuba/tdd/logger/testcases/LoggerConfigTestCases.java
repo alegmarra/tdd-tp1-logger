@@ -45,11 +45,11 @@ public class LoggerConfigTestCases {
         try {
             LoggerConfigBuilder configTool = new LoggerConfigBuilder();
 
-            LoggerConfig config = configTool.getConfig();
+            LoggerConfig configs = configTool.getConfig();
 
-            assertEquals(fileFormat, config.format);
-            assertEquals(fileSeparator, config.separator);
-            assertEquals(fileLevel, config.level);
+            assertEquals(fileFormat, configs.format);
+            assertEquals(fileSeparator, configs.separator);
+            assertEquals(fileLevel, configs.level);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,11 +66,11 @@ public class LoggerConfigTestCases {
         try {
             LoggerConfigBuilder configTool = new LoggerConfigBuilder();
 
-            LoggerConfig config = configTool.getConfig();
+            LoggerConfig configs = configTool.getConfig();
 
-            assertEquals(fileFormat, config.format);
-            assertEquals(fileSeparator, config.separator);
-            assertEquals(fileLevel, config.level);
+            assertEquals(fileFormat, configs.format);
+            assertEquals(fileSeparator, configs.separator);
+            assertEquals(fileLevel, configs.level);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,12 +87,12 @@ public class LoggerConfigTestCases {
         try {
             LoggerConfigBuilder configTool = new LoggerConfigBuilder();
 
-            LoggerConfig config = configTool.getConfig();
+            LoggerConfig configs = configTool.getConfig();
 
-            assertEquals(fileFormat, config.format);
+            assertEquals(fileFormat, configs.format);
 
-            assertEquals(defaultSeparator, config.separator);
-            assertEquals(defaultLevel, config.level);
+            assertEquals(defaultSeparator, configs.separator);
+            assertEquals(defaultLevel, configs.level);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -24,7 +24,6 @@ public class LoggerConfig {
     private List<Filter> filters = new LinkedList<>();
 
     public LoggerConfig(){
-
         this.level = Level.INFO;
         this.format = "%d{HH:mm:ss} %n %p %n %t %n %m ";
         this.separator = "-";

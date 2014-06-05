@@ -1,107 +1,70 @@
 package com.fiuba.tdd.logger.format.parser;
 
-import com.fiuba.tdd.logger.appenders.*;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
-import com.fiuba.tdd.logger.utils.LoggerConfig;
-
-import java.io.IOException;
-import java.io.InputStream;
-import com.fiuba.tdd.logger.filters.Filter;
-import com.fiuba.tdd.logger.format.parser.model.AppenderImp;
-import com.fiuba.tdd.logger.format.parser.model.FilterImp;
+import com.fiuba.tdd.logger.format.parser.model.AppenderDto;
+import com.fiuba.tdd.logger.format.parser.model.ConfigDto;
+import com.fiuba.tdd.logger.format.parser.model.FilterDto;
 import com.fiuba.tdd.logger.format.parser.model.LoggerProperties;
-import com.fiuba.tdd.logger.format.parser.model.Parameter;
 import com.fiuba.tdd.logger.utils.Configurable;
-import com.fiuba.tdd.logger.appenders.Appendable;
+import com.fiuba.tdd.logger.utils.LoggerConfig;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.lang.reflect.Constructor;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class XmlPropertiesParser implements ConfigParser {
 
-    public static final String TYPES = "types";
-    public static final String VALUES = "values";
-
     @Override
-    public LoggerConfig parseConfigFile(InputStream config) throws InvalidArgumentException, IOException {
+    public List<LoggerConfig> parseConfigFile(InputStream config) throws InvalidArgumentException, IOException {
+
+        List<LoggerConfig> loggerConfigs = new ArrayList<>();
+
         try {
             JAXBContext jc = JAXBContext.newInstance(LoggerProperties.class);
-            Unmarshaller unmarshaller = null;
-            unmarshaller = jc.createUnmarshaller();
+            Unmarshaller unmarshaller = jc.createUnmarshaller();
             LoggerProperties logger = (LoggerProperties)unmarshaller.unmarshal(config);
 
-            LoggerConfig parsedConfig = new LoggerConfig(logger.config.format,
-                    Configurable.Level.valueOf(logger.config.level),
-                    logger.config.separator);
+            for (ConfigDto configDto: logger.configs){
+                LoggerConfig parsedConfig = new LoggerConfig(configDto.format,
+                        Configurable.Level.valueOf(configDto.level),
+                        configDto.separator);
 
-            for(AppenderImp appender:  logger.config.appenders){
-                try {
-                    Object customAppender = getInstance(appender.implementation, appender.params);
-                    if (customAppender instanceof Appendable)
-                        parsedConfig.addAppender((Appendable) customAppender);
-                    // else TODO
+                addAppenders(configDto, parsedConfig);
+                addFilters(configDto, parsedConfig);
 
-                } catch (ClassNotFoundException | InstantiationException e) {
-                    e.printStackTrace();
-                }
+                loggerConfigs.add(parsedConfig);
             }
 
-            for(FilterImp filter: logger.config.filters){
-                try {
-                    Object customFilter = getInstance(filter.implementation, filter.params);
-                    if (customFilter instanceof Filter)
-                        parsedConfig.addFilter((Filter) customFilter);
-                    // else TODO
-
-                } catch (ClassNotFoundException | InstantiationException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            return parsedConfig;
+            return loggerConfigs;
 
         } catch (JAXBException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
+            throw new InvalidArgumentException("Unable to parse this file, invalid format");
         }
-
-        return null;
     }
 
-    private Object getInstance(String className, List<Parameter> paramsList) throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-
-        Map<String, Object> params = getConstructorParams(paramsList);
-
-        Class<?> clazz = Class.forName(className);
-        Constructor<?> construct = clazz.getConstructor((Class<?>[]) params.get(TYPES));
-        return construct.newInstance((Object[])params.get(VALUES));
-    }
-
-    private Map<String, Object> getConstructorParams(List<Parameter> paramsList) throws ClassNotFoundException {
-        Map<String, Object> params = new HashMap<>();
-        Class[] paramsImp = null;
-        Object[] paramsVal = null;
-        if (paramsList != null) {
-            paramsImp = new Class[paramsList.size()];
-            paramsVal = new Object[paramsList.size()];
-            int i=0;
-            for (Parameter param : paramsList) {
-                paramsImp[i] = Class.forName(param.type);
-                paramsVal[i++] = param.value;
+    private void addFilters(ConfigDto configDto, LoggerConfig parsedConfig) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        for(FilterDto filter: configDto.filters){
+            try {
+                parsedConfig.addFilter(Instantiator.instantiateFilter(filter));
+            } catch (ClassNotFoundException | InstantiationException | InvalidArgumentException e) {
+                e.printStackTrace();
             }
-        } else {
-            paramsImp = new Class[]{};
-            paramsVal = new Object[]{};
         }
+    }
 
-        params.put(TYPES, paramsImp);
-        params.put(VALUES, paramsVal);
-
-        return params;
+    private void addAppenders(ConfigDto configDto, LoggerConfig parsedConfig) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        for(AppenderDto appender:  configDto.appenders){
+            try {
+                parsedConfig.addAppender(Instantiator.instantiateAppendable(appender));
+            } catch (ClassNotFoundException | InstantiationException | InvalidArgumentException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
