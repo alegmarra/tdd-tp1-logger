@@ -69,27 +69,27 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void trace(Marker marker, String s) {
-
+        trace(s);
     }
 
     @Override
     public void trace(Marker marker, String s, Object o) {
-
+        trace(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o));
     }
 
     @Override
     public void trace(Marker marker, String s, Object o, Object o2) {
-
+        trace(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o, o2));
     }
 
     @Override
     public void trace(Marker marker, String s, Object... objects) {
-
+        trace(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, objects));
     }
 
     @Override
     public void trace(Marker marker, String s, Throwable throwable) {
-
+        trace(s, throwable);
     }
 
     @Override
@@ -129,27 +129,27 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void debug(Marker marker, String s) {
-
+        debug(s);
     }
 
     @Override
     public void debug(Marker marker, String s, Object o) {
-
+        debug(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o));
     }
 
     @Override
     public void debug(Marker marker, String s, Object o, Object o2) {
-
+        debug(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o, o2));
     }
 
     @Override
     public void debug(Marker marker, String s, Object... objects) {
-
+        debug(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, objects));
     }
 
     @Override
     public void debug(Marker marker, String s, Throwable throwable) {
-
+        debug(s, throwable);
     }
 
     @Override
@@ -189,27 +189,27 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void info(Marker marker, String s) {
-
+        info(s);
     }
 
     @Override
     public void info(Marker marker, String s, Object o) {
-
+        info(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o));
     }
 
     @Override
     public void info(Marker marker, String s, Object o, Object o2) {
-
+        info(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o, o2));
     }
 
     @Override
     public void info(Marker marker, String s, Object... objects) {
-
+        info(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, objects));
     }
 
     @Override
     public void info(Marker marker, String s, Throwable throwable) {
-
+        info(s, throwable);
     }
 
     @Override
@@ -249,27 +249,27 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void warn(Marker marker, String s) {
-
+        warn(s);
     }
 
     @Override
     public void warn(Marker marker, String s, Object o) {
-
+        warn(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o));
     }
 
     @Override
     public void warn(Marker marker, String s, Object o, Object o2) {
-
+        warn(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o, o2));
     }
 
     @Override
     public void warn(Marker marker, String s, Object... objects) {
-
+        warn(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, objects));
     }
 
     @Override
     public void warn(Marker marker, String s, Throwable throwable) {
-
+        warn(s, throwable);
     }
 
     @Override
@@ -309,27 +309,27 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void error(Marker marker, String s) {
-
+        error(s);
     }
 
     @Override
     public void error(Marker marker, String s, Object o) {
-
+        error(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o));
     }
 
     @Override
     public void error(Marker marker, String s, Object o, Object o2) {
-
+        error(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, o, o2));
     }
 
     @Override
     public void error(Marker marker, String s, Object... objects) {
-
+        error(marker, ParametrizedMessageInterpreter.replaceMessageWithArgs(s, objects));
     }
 
     @Override
     public void error(Marker marker, String s, Throwable throwable) {
-
+        error(s, throwable);
     }
 
     @Override
