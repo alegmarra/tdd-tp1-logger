@@ -47,24 +47,48 @@ public class SimpleLogger implements Configurable{
         log(msg, Level.TRACE);
     }
 
+    public void trace(String msg, Throwable exception){
+        log(msg, Level.TRACE, exception);
+    }
+
     public void debug(String msg){
         log(msg, Level.DEBUG);
+    }
+
+    public void debug(String msg, Throwable exception){
+        log(msg, Level.DEBUG, exception);
     }
 
     public void info(String msg){
         log(msg, Level.INFO);
     }
 
+    public void info(String msg, Throwable exception){
+        log(msg, Level.INFO, exception);
+    }
+
     public void warn(String msg){
         log(msg, Level.WARN);
+    }
+
+    public void warn(String msg, Throwable exception){
+        log(msg, Level.WARN, exception);
     }
 
     public void error(String msg){
         log(msg, Level.ERROR);
     }
 
+    public void error(String msg, Throwable exception){
+        log(msg, Level.ERROR, exception);
+    }
+
     public void fatal(String msg){
         log(msg, Level.FATAL);
+    }
+
+    public void fatal(String msg, Throwable exception){
+        log(msg, Level.FATAL, exception);
     }
 
     public void setLevel(Level level){
@@ -130,6 +154,13 @@ public class SimpleLogger implements Configurable{
         }
 
         return skipped;
+    }
+
+    private void log(String msg, Level level, Throwable exception) {
+        if (exception == null)
+            log(msg, level);
+        else
+            log(msg + exception.getMessage(), level);
     }
 
     private void setConfig(LoggerConfig defaultConfig) throws InvalidArgumentException {

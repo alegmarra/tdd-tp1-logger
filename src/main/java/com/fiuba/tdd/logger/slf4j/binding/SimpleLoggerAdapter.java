@@ -56,7 +56,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void trace(String s, Throwable throwable) {
-
+        logger.trace(s, throwable);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void debug(String s, Throwable throwable) {
-
+        logger.debug(s, throwable);
     }
 
     @Override
@@ -176,7 +176,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void info(String s, Throwable throwable) {
-
+        logger.info(s, throwable);
     }
 
     @Override
@@ -236,7 +236,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void warn(String s, Throwable throwable) {
-
+        logger.warn(s, throwable);
     }
 
     @Override
@@ -296,7 +296,7 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     @Override
     public void error(String s, Throwable throwable) {
-
+        logger.error(s, throwable);
     }
 
     @Override
