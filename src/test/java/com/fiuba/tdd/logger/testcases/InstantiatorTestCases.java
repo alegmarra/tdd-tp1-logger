@@ -28,14 +28,14 @@ public class InstantiatorTestCases {
         nonExistentAppender = new AppenderDto();
         nonExistentAppender.implementation = "asdfa";
         existentFilter = new FilterDto();
-        nonExistentFilter.implementation = existentFilterName;
+        existentFilter.implementation = existentFilterName;
         nonExistentFilter = new FilterDto();
         nonExistentFilter.implementation = "asdfa";
     }
 
 
     @Test(expected = ClassNotFoundException.class)
-    public void instantiateAppendable_ClassNotFound() throws ClassNotFoundException {
+    public void instantiateAppendable_ClassNotFoundTest() throws ClassNotFoundException {
         try {
             Instantiator.instantiateAppendable(nonExistentAppender);
         } catch (ClassNotFoundException e) {
@@ -47,7 +47,7 @@ public class InstantiatorTestCases {
     }
 
     @Test
-    public void instantiateAppendable_ConstructorWithoutArguments() {
+    public void instantiateAppendableTest() {
         try {
             Appendable myFilter = Instantiator.instantiateAppendable(existentAppender);
             assertTrue(myFilter instanceof CustomAppendable);
@@ -59,7 +59,7 @@ public class InstantiatorTestCases {
 
 
     @Test(expected = ClassNotFoundException.class)
-    public void instantiateFilter_ClassNotFound() throws ClassNotFoundException {
+    public void instantiateFilter_ClassNotFoundTest() throws ClassNotFoundException {
         try {
             Instantiator.instantiateFilter(nonExistentFilter);
         } catch (ClassNotFoundException e) {
@@ -71,7 +71,7 @@ public class InstantiatorTestCases {
     }
 
     @Test
-    public void instantiateFilter_ConstructorWithoutArguments() {
+    public void instantiateFilterTest() {
         try {
             Filter myFilter = Instantiator.instantiateFilter(existentFilter);
             assertTrue(myFilter instanceof CustomFilter);

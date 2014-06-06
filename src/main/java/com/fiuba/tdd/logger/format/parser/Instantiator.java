@@ -30,6 +30,26 @@ public abstract class Instantiator {
         return castTo(getInstance(filter.implementation, filter.params), Filter.class);
     }
 
+//    private Object instantiateObject(String className, String... params)
+//            throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+//
+//        Class<?> targetClass = Class.forName(className);
+//        Constructor<?> constructor;
+//        if (params == null || params.length == 0) {
+//            constructor = targetClass.getConstructor();
+//            return constructor.newInstance();
+//        } else if (params.length == 1) {
+//            constructor = targetClass.getConstructor(String.class);
+//            return constructor.newInstance(new Object[] { params } );
+//        } else if (params.length == 2) {
+//            constructor = targetClass.getConstructor(String.class, String.class);
+//            return constructor.newInstance(new Object[] { params } );
+//        } else {
+//            constructor = targetClass.getConstructor(String[].class);
+//            return constructor.newInstance(new Object[] { params } );
+//        }
+//    }
+//
     private static <T> T castTo(Object object, Class<T> classTarget) throws InvalidArgumentException {
         if (classTarget.isInstance(object))
             return classTarget.cast(object);
