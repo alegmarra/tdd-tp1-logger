@@ -7,6 +7,6 @@ import java.util.List;
 @XmlRootElement
 public class LoggerProperties {
 
-    @XmlElement(name="configs")
+    @XmlElement(name="config")
     public List<ConfigDto> configs;
 }
