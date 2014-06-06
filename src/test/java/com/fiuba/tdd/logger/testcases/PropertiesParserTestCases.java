@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -30,9 +31,9 @@ public class PropertiesParserTestCases {
     @Test
     public void testFromPath() throws UnsuportedFormatException, IOException, InvalidArgumentException {
 
-        LoggerConfig conf = parser.parseConfigFile(inputFile);
+        List<LoggerConfig> conf = parser.parseConfigFile(inputFile);
 
-        assertTrue(conf.level.equals(Configurable.Level.valueOf("WARN")));
+        assertTrue(conf.get(0).level.equals(Configurable.Level.valueOf("WARN")));
     }
 
 }

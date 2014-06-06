@@ -37,7 +37,7 @@ public class LoggerConfigTestCases {
         assertEquals(defaultSeparator, config.separator);
         assertEquals(defaultLevel, config.level);
     }
-/*
+
     @Test
     public void testConfigFromPropertiesInClasspath() {
 

@@ -28,28 +28,28 @@ public class LoggerConfigBuilder {
     private static final String configPrefix = "logger­config";
     private static final String[] supportedExtensions = {".properties", ".xml"};
 
-    private LoggerConfig loggerConfig;
+    private List<LoggerConfig> loggerConfigs;
     private List<Appendable> outputs = new LinkedList<>();
     private List<Filter> filters = new LinkedList<>();
 
     public LoggerConfigBuilder() throws IOException, InvalidArgumentException {
 
         LoggerConfig defaultConfig = new LoggerConfig();
+        defaultConfig.addAppender(new ConsoleAppender());
 
         URL properties = getPropertiesFile();
         if (properties == null){
-            loggerConfig = defaultConfig;
-            loggerConfig.addAppender(new ConsoleAppender());
+            loggerConfigs.add(defaultConfig);
 
         } else {
             try {
                 String extension = FilenameUtils.getExtension(properties.toString());
                 ConfigParser parser = PropertiesParserFactory.getParser(extension);
-                loggerConfig = parser.parseConfigFile(properties.openStream());
+                loggerConfigs = parser.parseConfigFile(properties.openStream());
 
             } catch (UnsuportedFormatException e) {
                 e.printStackTrace();
-                loggerConfig = defaultConfig;
+                loggerConfigs.add(defaultConfig);
             }
         }
     }
@@ -67,7 +67,11 @@ public class LoggerConfigBuilder {
 
 
     public LoggerConfig getConfig() {
-        return loggerConfig;
+        return loggerConfigs.get(0);
+    }
+    
+    public LoggerConfig getConfig(String name) {
+        return loggerConfigs.get(0);
     }
 
 }

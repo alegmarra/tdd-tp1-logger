@@ -26,12 +26,8 @@ public abstract class Instantiator {
         return castTo(getInstance(appender.implementation, appender.params), Appendable.class);
     }
 
-    private Object instantiateObject(String className, String... params)
-            throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Class<?> targetClass = Class.forName(className);
-        Constructor<?> constructor = targetClass.getConstructor(String.class);
-        // TODO: test this params call
-        return constructor.newInstance(params);
+    public static Filter instantiateFilter(FilterDto filter) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, InvalidArgumentException {
+        return castTo(getInstance(filter.implementation, filter.params), Filter.class);
     }
 
     private static <T> T castTo(Object object, Class<T> classTarget) throws InvalidArgumentException {
