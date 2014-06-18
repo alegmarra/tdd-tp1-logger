@@ -1,10 +1,7 @@
 package com.fiuba.tdd.logger.utils;
 
-import com.fiuba.tdd.logger.appenders.Appendable;
-import com.fiuba.tdd.logger.appenders.ConsoleAppender;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.exceptions.UnsuportedFormatException;
-import com.fiuba.tdd.logger.filters.Filter;
 import com.fiuba.tdd.logger.format.parser.ConfigParser;
 import com.fiuba.tdd.logger.format.parser.PropertiesParserFactory;
 import org.apache.commons.io.FilenameUtils;
@@ -12,8 +9,6 @@ import org.apache.commons.io.FilenameUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 
@@ -34,8 +29,12 @@ public class LoggerConfigBuilder {
     private final static LoggerConfig defaultConfig = new LoggerConfig();
 
     public LoggerConfigBuilder() throws IOException, InvalidArgumentException {
+        this("");
+    }
 
-        URL properties = getPropertiesFile();
+    public LoggerConfigBuilder(String configFileName) throws IOException, InvalidArgumentException {
+
+        URL properties = getPropertiesFile(configFileName);
         if (properties != null){
             try {
                 String extension = FilenameUtils.getExtension(properties.toString());
@@ -50,17 +49,20 @@ public class LoggerConfigBuilder {
         }
     }
 
-    private URL getPropertiesFile() {
+    private URL getPropertiesFile(String filename) {
         URL properties = null;
-        String configFileName = "";
-        int retries = 0;
-        do {
-            configFileName = configPrefix.concat(supportedExtensions[retries++]);
-            properties = Thread.currentThread().getContextClassLoader().getResource(configFileName);
-        } while (properties == null && retries< supportedExtensions.length);
+        if (filename == null || filename.equals("")) {
+            String configFileName = "";
+            int retries = 0;
+            do {
+                configFileName = configPrefix.concat(supportedExtensions[retries++]);
+                properties = Thread.currentThread().getContextClassLoader().getResource(configFileName);
+            } while (properties == null && retries< supportedExtensions.length);
+        } else {
+            properties = Thread.currentThread().getContextClassLoader().getResource(filename);
+        }
         return properties;
     }
-
 
     public static LoggerConfig getConfig() {
         return defaultConfig;

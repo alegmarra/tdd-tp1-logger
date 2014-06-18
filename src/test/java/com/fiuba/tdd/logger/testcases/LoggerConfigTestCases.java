@@ -1,15 +1,22 @@
 package com.fiuba.tdd.logger.testcases;
 
+import com.fiuba.tdd.logger.appenders.ConsoleAppender;
+import com.fiuba.tdd.logger.filters.PatternFilter;
+import com.fiuba.tdd.logger.utils.Configurable;
 import com.fiuba.tdd.logger.utils.Configurable.Level;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 import com.fiuba.tdd.logger.utils.LoggerConfigBuilder;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
+import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class LoggerConfigTestCases {
 
@@ -21,17 +28,50 @@ public class LoggerConfigTestCases {
     private final String defaultFormat = "%d{HH:mm:ss} %n %p %n %t %n %m ";
     private final String defaultSeparator = "-";
 
+    private final String loggerXmlAsResource= "loggerXMLconfig.xml";
+
+    private LoggerConfig defaultConfig;
+
+
+
+    @Before
+    public void initDefault() {
+        defaultConfig = LoggerConfigBuilder.getConfig();
+    }
 
     @Test
-    public void testDefaultLoggerConfig() throws IOException, InvalidArgumentException {
+    public void testDefaultLoggerConfig_defaultFormat() throws IOException, InvalidArgumentException {
+        assertEquals(defaultFormat, defaultConfig.format);
+    }
 
-        LoggerConfigBuilder configTool = new LoggerConfigBuilder();
+    @Test
+    public void testDefaultLoggerConfig_defaultSeparatorIsHyphen() throws IOException, InvalidArgumentException {
+        assertEquals(defaultSeparator, defaultConfig.separator);
+    }
 
-        LoggerConfig config = configTool.getConfig();
+    @Test
+    public void testDefaultLoggerConfig_defaultLevelIsInfo() throws IOException, InvalidArgumentException {
+        assertEquals(defaultLevel, defaultConfig.level);
+    }
 
-        assertEquals(defaultFormat, config.format);
-        assertEquals(defaultSeparator, config.separator);
-        assertEquals(defaultLevel, config.level);
+    @Test
+    public void testDefaultLoggerConfig_defaultAppenderIsOnlyOne() throws IOException, InvalidArgumentException {
+        assertEquals(1, defaultConfig.getAppenders().size());
+    }
+
+    @Test
+    public void testDefaultLoggerConfig_defaultAppenderIsConsoleAppender() throws IOException, InvalidArgumentException {
+        assertTrue(defaultConfig.getAppenders().get(0) instanceof ConsoleAppender);
+    }
+
+    @Test
+    public void testDefaultLoggerConfig_defaultFilterIsOnlyOne() throws IOException, InvalidArgumentException {
+        assertEquals(1, defaultConfig.getFilters().size());
+    }
+
+    @Test
+    public void testDefaultLoggerConfig_defaultFilterIsPatternFilter() throws IOException, InvalidArgumentException {
+        assertTrue  (defaultConfig.getFilters().get(0) instanceof PatternFilter);
     }
 
     @Test
@@ -39,13 +79,20 @@ public class LoggerConfigTestCases {
 
 
         try {
-            LoggerConfigBuilder configTool = new LoggerConfigBuilder();
+            LoggerConfigBuilder configTool = new LoggerConfigBuilder(loggerXmlAsResource);
 
-            LoggerConfig configs = configTool.getConfig();
+            LoggerConfig complexConfig = configTool.getConfig("complex");
+            LoggerConfig simpleConfig = configTool.getConfig("simple");
 
-            assertEquals(fileFormat, configs.format);
-            assertEquals(fileSeparator, configs.separator);
-            assertEquals(fileLevel, configs.level);
+            assertNotNull(complexConfig);
+            Assert.assertTrue(complexConfig.level.equals(Configurable.Level.valueOf("ERROR")));
+            assertEquals(2, complexConfig.getAppenders().size());
+            assertEquals(2, complexConfig.getFilters().size());
+
+            assertNotNull(simpleConfig);
+            Assert.assertTrue(simpleConfig.level.equals(Configurable.Level.valueOf("INFO")));
+            assertEquals(1, simpleConfig.getAppenders().size());
+            assertEquals(1, simpleConfig.getFilters().size());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,6 +102,7 @@ public class LoggerConfigTestCases {
             fail("An InvalidArgumentException was thrown when trying to read a valid file. Cause: " + e.getCause());
         }
     }
+/*
 
     @Test
     public void testConfigFromExternalProperties() {
