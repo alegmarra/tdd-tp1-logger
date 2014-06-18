@@ -3,7 +3,7 @@ package com.fiuba.tdd.logger.testcases;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.exceptions.UnsuportedFormatException;
 import com.fiuba.tdd.logger.format.parser.ConfigParser;
-import com.fiuba.tdd.logger.format.parser.PropertiesParser;
+import com.fiuba.tdd.logger.format.parser.TextPropertiesParser;
 import com.fiuba.tdd.logger.format.parser.PropertiesParserFactory;
 import com.fiuba.tdd.logger.format.parser.XmlPropertiesParser;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class PropertiesFactoryTestCases {
     @Test
     public void testProperties()throws UnsuportedFormatException, IOException, InvalidArgumentException {
         parser = PropertiesParserFactory.getParser(".properties");
-        assertTrue(parser instanceof PropertiesParser);
+        assertTrue(parser instanceof TextPropertiesParser);
     }
 
     @Test(expected = UnsuportedFormatException.class)

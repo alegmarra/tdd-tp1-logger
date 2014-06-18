@@ -5,10 +5,11 @@ import com.fiuba.tdd.logger.utils.LoggerConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 public interface ConfigParser {
 
-    public java.util.Map<String, LoggerConfig> parseConfigFile(InputStream config) throws InvalidArgumentException, IOException;
+    public Map<String, LoggerConfig> parseConfigFile(InputStream config) throws InvalidArgumentException, IOException;
 
 }

@@ -19,7 +19,7 @@ public class PropertiesParserFactory {
             case XML:
             case dotXML: return new XmlPropertiesParser();
             case PROPERTIES:
-            case dotPROPERTIES: return new PropertiesParser();
+            case dotPROPERTIES: return new TextPropertiesParser();
             default: throw new UnsuportedFormatException("Format " + extension + "not supported");
         }
 
