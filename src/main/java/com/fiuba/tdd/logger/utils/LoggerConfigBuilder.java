@@ -60,7 +60,7 @@ public class LoggerConfigBuilder {
     }
 
 
-    public LoggerConfig getConfig() {
+    public static LoggerConfig getConfig() {
         return defaultConfig;
     }
     

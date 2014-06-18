@@ -169,16 +169,16 @@ public class SimpleLogger implements Configurable{
             log(msg + exception.getMessage(), level);
     }
 
-    private void setConfig(LoggerConfig defaultConfig) throws InvalidArgumentException {
-        this.level = defaultConfig.level;
-        this.format = defaultConfig.format;
-        this.separator = defaultConfig.separator;
+    private void setConfig(LoggerConfig config) throws InvalidArgumentException {
+        this.level = config.level;
+        this.format = config.format;
+        this.separator = config.separator;
 
-        for ( Appendable output : defaultConfig.getAppenders() ) {
+        for ( Appendable output : config.getAppenders() ) {
             registerAppender(output);
         }
 
-        for ( Filter filter : defaultConfig.getFilters() ) {
+        for ( Filter filter : config.getFilters() ) {
             registerFilter(filter);
         }
     }

@@ -4,6 +4,7 @@ import com.fiuba.tdd.logger.SimpleLogger;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.filters.Filter;
 import com.fiuba.tdd.logger.utils.Configurable;
+import com.fiuba.tdd.logger.utils.LoggerConfig;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 
@@ -15,9 +16,21 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
         this(type.getName());
 
     }
+
+    public SimpleLoggerAdapter(Class<?> type, LoggerConfig config){
+        this(type.getName(), config);
+    }
+
     public SimpleLoggerAdapter(String name){
         try {
             logger = new SimpleLogger(name);
+        } catch (InvalidArgumentException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public SimpleLoggerAdapter(String name, LoggerConfig config){
+        try {
+            logger = new SimpleLogger(name, config);
         } catch (InvalidArgumentException e) {
             throw new RuntimeException(e);
         }
