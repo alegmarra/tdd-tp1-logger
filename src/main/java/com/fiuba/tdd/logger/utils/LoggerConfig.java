@@ -1,8 +1,10 @@
 package com.fiuba.tdd.logger.utils;
 
 import com.fiuba.tdd.logger.appenders.Appendable;
+import com.fiuba.tdd.logger.appenders.ConsoleAppender;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.filters.Filter;
+import com.fiuba.tdd.logger.filters.PatternFilter;
 import com.fiuba.tdd.logger.utils.Configurable.Level;
 
 import java.util.LinkedList;
@@ -27,6 +29,8 @@ public class LoggerConfig {
         this.level = Level.INFO;
         this.format = "%d{HH:mm:ss} %n %p %n %t %n %m ";
         this.separator = "-";
+        addAppender(new ConsoleAppender());
+        addFilter(new PatternFilter());
     }
 
     public LoggerConfig(final String format, final Level level, final String separator)
@@ -39,6 +43,46 @@ public class LoggerConfig {
         this.level = level;
         this.format = format;
         this.separator = separator;
+        addAppender(new ConsoleAppender());
+        addFilter(new PatternFilter());
+    }
+
+
+    public LoggerConfig(final String format, final Level level, final String separator, Appendable... outputs)
+            throws InvalidArgumentException
+    {
+        if (format == null || level == null || separator == null) {
+            throw new InvalidArgumentException("Null value given for required argument. Format, level and separator should not be null");
+        }
+
+        this.level = level;
+        this.format = format;
+        this.separator = separator;
+
+        if (outputs != null)
+            for (Appendable appender : outputs)
+                addAppender(appender);
+
+    }
+
+    public LoggerConfig(final String format, final Level level, final String separator, Appendable[] outputs, Filter[] filters)
+            throws InvalidArgumentException
+    {
+        if (format == null || level == null || separator == null) {
+            throw new InvalidArgumentException("Null value given for required argument. Format, level and separator should not be null");
+        }
+
+        this.level = level;
+        this.format = format;
+        this.separator = separator;
+
+        if (outputs != null)
+            for (Appendable appender : outputs)
+                addAppender(appender);
+
+        if (filters != null)
+            for (Filter filter : filters)
+                addFilter(filter);
     }
 
     public List<Appendable> getAppenders() {

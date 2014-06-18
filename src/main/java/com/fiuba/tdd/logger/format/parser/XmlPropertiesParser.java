@@ -15,12 +15,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class XmlPropertiesParser implements ConfigParser {
 
     @Override
-    public List<LoggerConfig> parseConfigFile(InputStream config) throws InvalidArgumentException, IOException {
+    public Map<String, LoggerConfig> parseConfigFile(InputStream config) throws InvalidArgumentException, IOException {
 
         List<LoggerConfig> loggerConfigs = new ArrayList<>();
 
@@ -40,7 +42,7 @@ public class XmlPropertiesParser implements ConfigParser {
                 loggerConfigs.add(parsedConfig);
             }
 
-            return loggerConfigs;
+            return new HashMap<>();
 
         } catch (JAXBException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();

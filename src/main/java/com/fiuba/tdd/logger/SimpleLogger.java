@@ -36,12 +36,16 @@ public class SimpleLogger implements Configurable{
             throws InvalidArgumentException
     {
         setName(name);
-        setConfig(new LoggerConfig(format, level, separator));
-
-        for (Appendable appender : outputs)
-            registerAppender(appender);
+        setConfig(new LoggerConfig(format, level, separator, outputs));
     }
 
+
+    public SimpleLogger(final String name, final String format, Level level, final String separator, Appendable[] outputs, Filter[] filters)
+            throws InvalidArgumentException
+    {
+        setName(name);
+        setConfig(new LoggerConfig(format, level, separator, outputs, filters));
+    }
 
     public void trace(String msg){
         log(msg, Level.TRACE);
@@ -172,6 +176,10 @@ public class SimpleLogger implements Configurable{
 
         for ( Appendable output : defaultConfig.getAppenders() ) {
             registerAppender(output);
+        }
+
+        for ( Filter filter : defaultConfig.getFilters() ) {
+            registerFilter(filter);
         }
     }
 

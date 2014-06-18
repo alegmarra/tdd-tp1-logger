@@ -33,7 +33,7 @@ public class PropertiesParser implements ConfigParser{
 
     public PropertiesParser(){}
 
-    public List<LoggerConfig> parseConfigFile(InputStream config)
+    public Map<String, LoggerConfig> parseConfigFile(InputStream config)
             throws InvalidArgumentException, IOException
     {
 
@@ -78,7 +78,9 @@ public class PropertiesParser implements ConfigParser{
 //        }
 //
 //        return createConfigFromMap(configValues);
-        return loggerConfigs;
+//        return loggerConfigs;
+        return new HashMap<>();
+
     }
 
     private void addFilters(ConfigDto configDto, LoggerConfig parsedConfig) {

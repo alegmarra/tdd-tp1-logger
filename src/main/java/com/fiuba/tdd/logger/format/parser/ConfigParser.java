@@ -9,6 +9,6 @@ import java.util.Map;
 
 public interface ConfigParser {
 
-    public java.util.List<LoggerConfig> parseConfigFile(InputStream config) throws InvalidArgumentException, IOException;
+    public java.util.Map<String, LoggerConfig> parseConfigFile(InputStream config) throws InvalidArgumentException, IOException;
 
 }

@@ -74,7 +74,6 @@ public class LoggerTestCases {
         });
     }
 
-/*
 
     @Test
     public void testLoggerDefaultMessageFormatConfiguration() throws Exception {
@@ -87,6 +86,7 @@ public class LoggerTestCases {
         logger.info(msg);
         verify(consoleMock).append(eq(formattedMessage));
     }
+/*
 
     @Test
     public void testLoggerGetLevelDefaultInfo() throws Exception {

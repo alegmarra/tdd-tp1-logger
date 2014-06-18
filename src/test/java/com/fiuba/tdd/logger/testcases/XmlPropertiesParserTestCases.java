@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -33,17 +33,19 @@ public class XmlPropertiesParserTestCases {
     @Test
     public void test() throws IOException, InvalidArgumentException {
 
-        List<LoggerConfig> configs = parser.parseConfigFile(inputFile);
+        Map<String, LoggerConfig> configs = parser.parseConfigFile(inputFile);
+        LoggerConfig complexConfig = configs.get("complex");
+        LoggerConfig simpleConfig = configs.get("simple");
 
-        assertNotNull(configs.get(0));
-        assertTrue(configs.get(0).level.equals(Configurable.Level.valueOf("ERROR")));
-        assertEquals(2, configs.get(0).getAppenders().size());
-        assertEquals(1, configs.get(0).getFilters().size());
+        assertNotNull(complexConfig);
+        assertTrue(complexConfig.level.equals(Configurable.Level.valueOf("ERROR")));
+        assertEquals(2, complexConfig.getAppenders().size());
+        assertEquals(1, complexConfig.getFilters().size());
 
-        assertNotNull(configs.get(1));
-        assertTrue(configs.get(1).level.equals(Configurable.Level.valueOf("INFO")));
-        assertEquals(1, configs.get(1).getAppenders().size());
-        assertEquals(1, configs.get(1).getFilters().size());
+        assertNotNull(simpleConfig);
+        assertTrue(simpleConfig.level.equals(Configurable.Level.valueOf("INFO")));
+        assertEquals(1, simpleConfig.getAppenders().size());
+        assertEquals(1, simpleConfig.getFilters().size());
     }
 
 }

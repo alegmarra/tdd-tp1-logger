@@ -11,8 +11,10 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -28,20 +30,13 @@ public class LoggerConfigBuilder {
     private static final String configPrefix = "logger­config";
     private static final String[] supportedExtensions = {".properties", ".xml"};
 
-    private List<LoggerConfig> loggerConfigs;
-    private List<Appendable> outputs = new LinkedList<>();
-    private List<Filter> filters = new LinkedList<>();
+    private Map<String, LoggerConfig> loggerConfigs;
+    private final static LoggerConfig defaultConfig = new LoggerConfig();
 
     public LoggerConfigBuilder() throws IOException, InvalidArgumentException {
 
-        LoggerConfig defaultConfig = new LoggerConfig();
-        defaultConfig.addAppender(new ConsoleAppender());
-
         URL properties = getPropertiesFile();
-        if (properties == null){
-            loggerConfigs.add(defaultConfig);
-
-        } else {
+        if (properties != null){
             try {
                 String extension = FilenameUtils.getExtension(properties.toString());
                 ConfigParser parser = PropertiesParserFactory.getParser(extension);
@@ -49,7 +44,6 @@ public class LoggerConfigBuilder {
 
             } catch (UnsuportedFormatException e) {
                 e.printStackTrace();
-                loggerConfigs.add(defaultConfig);
             }
         }
     }
@@ -71,7 +65,7 @@ public class LoggerConfigBuilder {
     }
     
     public LoggerConfig getConfig(String name) {
-        return loggerConfigs.get(0);
+        return loggerConfigs.get(name);
     }
 
 }

@@ -21,10 +21,6 @@ public class LoggerConfigTestCases {
     private final String defaultFormat = "%d{HH:mm:ss} %n %p %n %t %n %m ";
     private final String defaultSeparator = "-";
 
-    private final String propertiesInClassPath = "loggerAsResource.properties";
-    private final String partialProperties = "partialLoggerConfig.properties";
-    private final String propertiesInRoot = "./loggerAsExternal.properties";
-
 
     @Test
     public void testDefaultLoggerConfig() throws IOException, InvalidArgumentException {
