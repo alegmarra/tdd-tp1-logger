@@ -9,7 +9,7 @@
         </appender>
         <appender implementation="com.fiuba.tdd.logger.appenders.ConsoleAppender"/>
 
-        <filter implementation="com.fiuba.tdd.logger.testcases.custom.SimpleFilter">
+        <filter implementation="com.fiuba.tdd.logger.testcases.custom.CustomFilter">
             <param type="java.lang.String">myformat::%d</param>
         </filter>
         <filter implementation="com.fiuba.tdd.logger.filters.PatternFilter"/>

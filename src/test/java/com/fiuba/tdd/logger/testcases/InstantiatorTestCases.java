@@ -1,12 +1,12 @@
 package com.fiuba.tdd.logger.testcases;
 
 import com.fiuba.tdd.logger.appenders.Appendable;
-import com.fiuba.tdd.logger.appenders.CustomAppendable;
-import com.fiuba.tdd.logger.filters.CustomFilter;
 import com.fiuba.tdd.logger.filters.Filter;
 import com.fiuba.tdd.logger.format.parser.Instantiator;
 import com.fiuba.tdd.logger.format.parser.model.AppenderDto;
 import com.fiuba.tdd.logger.format.parser.model.FilterDto;
+import com.fiuba.tdd.logger.testcases.custom.CustomAppendable;
+import com.fiuba.tdd.logger.testcases.custom.CustomFilter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,8 +14,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class InstantiatorTestCases {
-    private final static String existentAppendableName = "com.fiuba.tdd.logger.appenders.CustomAppendable";
-    private final static String existentFilterName = "com.fiuba.tdd.logger.filters.CustomFilter";
+    private final static String existentAppendableName = "com.fiuba.tdd.logger.testcases.custom.CustomAppendable";
+    private final static String existentFilterName = "com.fiuba.tdd.logger.testcases.custom.CustomFilter";
     private AppenderDto existentAppender;
     private AppenderDto nonExistentAppender;
     private FilterDto existentFilter;
