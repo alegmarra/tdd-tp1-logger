@@ -43,8 +43,6 @@ public class LoggerConfig {
         this.level = level;
         this.format = format;
         this.separator = separator;
-        addAppender(new ConsoleAppender());
-        addFilter(new PatternFilter());
     }
 
 

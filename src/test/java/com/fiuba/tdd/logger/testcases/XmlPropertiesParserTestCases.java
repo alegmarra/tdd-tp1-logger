@@ -40,7 +40,7 @@ public class XmlPropertiesParserTestCases {
         assertNotNull(complexConfig);
         assertTrue(complexConfig.level.equals(Configurable.Level.valueOf("ERROR")));
         assertEquals(2, complexConfig.getAppenders().size());
-        assertEquals(1, complexConfig.getFilters().size());
+        assertEquals(2, complexConfig.getFilters().size());
 
         assertNotNull(simpleConfig);
         assertTrue(simpleConfig.level.equals(Configurable.Level.valueOf("INFO")));

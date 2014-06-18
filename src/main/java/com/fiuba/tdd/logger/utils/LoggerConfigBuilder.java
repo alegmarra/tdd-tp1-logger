@@ -61,7 +61,7 @@ public class LoggerConfigBuilder {
 
 
     public LoggerConfig getConfig() {
-        return loggerConfigs.get(0);
+        return defaultConfig;
     }
     
     public LoggerConfig getConfig(String name) {

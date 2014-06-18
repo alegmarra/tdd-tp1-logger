@@ -14,9 +14,7 @@ import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class XmlPropertiesParser implements ConfigParser {
@@ -24,7 +22,7 @@ public class XmlPropertiesParser implements ConfigParser {
     @Override
     public Map<String, LoggerConfig> parseConfigFile(InputStream config) throws InvalidArgumentException, IOException {
 
-        List<LoggerConfig> loggerConfigs = new ArrayList<>();
+        Map<String, LoggerConfig> loggerConfigs = new HashMap<>();
 
         try {
             JAXBContext jc = JAXBContext.newInstance(LoggerProperties.class);
@@ -39,10 +37,10 @@ public class XmlPropertiesParser implements ConfigParser {
                 addAppenders(configDto, parsedConfig);
                 addFilters(configDto, parsedConfig);
 
-                loggerConfigs.add(parsedConfig);
+                loggerConfigs.put(configDto.name, parsedConfig);
             }
 
-            return new HashMap<>();
+            return loggerConfigs;
 
         } catch (JAXBException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
