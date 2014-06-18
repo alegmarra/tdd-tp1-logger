@@ -45,6 +45,8 @@ public class LoggerConfigBuilder {
             } catch (UnsuportedFormatException e) {
                 e.printStackTrace();
             }
+        } else {
+            loggerConfigs = new HashMap<>();
         }
     }
 
