@@ -1,17 +1,17 @@
 package com.fiuba.tdd.logger.testcases;
 
-import com.fiuba.tdd.logger.appenders.Appendable;
 import com.fiuba.tdd.logger.SimpleLogger;
-import com.fiuba.tdd.logger.format.StringFormatter;
-import com.fiuba.tdd.logger.slf4j.binding.SimpleLoggerAdapter;
-import com.fiuba.tdd.logger.utils.Configurable.Level;
+import com.fiuba.tdd.logger.appenders.Appendable;
+import com.fiuba.tdd.logger.appenders.ConsoleAppender;
+import com.fiuba.tdd.logger.appenders.FileAppender;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.format.LoggerInvoker;
 import com.fiuba.tdd.logger.format.MessageFormatterBuilder;
+import com.fiuba.tdd.logger.format.StringFormatter;
+import com.fiuba.tdd.logger.slf4j.binding.SimpleLoggerAdapter;
 import com.fiuba.tdd.logger.slf4j.binding.SimpleLoggerFactory;
+import com.fiuba.tdd.logger.utils.Configurable.Level;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
-import com.fiuba.tdd.logger.appenders.ConsoleAppender;
-import com.fiuba.tdd.logger.appenders.FileAppender;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,12 +23,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.slf4j.Logger;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ MessageFormatterBuilder.class, LoggerConfig.class, SimpleLogger.class })
@@ -56,16 +54,7 @@ public class LoggerTestCases {
     protected SimpleLogger simpleLogger;
     protected SimpleLoggerFactory loggerFactory;
 
-    @Before
-    public void setupConfig() throws InvalidArgumentException {
-        defaultConfig = new LoggerConfig();
-        customConfig = new LoggerConfig(format, level, separator);
-        loggerFactory = new SimpleLoggerFactory();
-        defaultLogger = loggerFactory.getLogger(TEST_NAME_DEFAULT);
-        loggerAdapter = new SimpleLoggerAdapter(TEST_NAME_ADAPTER, defaultConfig);
-        simpleLogger = new SimpleLogger(TEST_NAME, defaultConfig);
-    }
-    @Before
+
     public void setupMocks() throws Exception {
 
         consoleMock = Mockito.mock(ConsoleAppender.class);
@@ -73,7 +62,6 @@ public class LoggerTestCases {
         noFormatFormatterMock = Mockito.mock(StringFormatter.class);
         formatterMock = Mockito.mock(StringFormatter.class);
         invokerMock = Mockito.mock(LoggerInvoker.class);
-
 
         when(noFormatFormatterMock.formatMessage((LoggerInvoker) any(), anyString())).thenAnswer(new Answer<String>() {
             @Override
@@ -85,26 +73,24 @@ public class LoggerTestCases {
 
         PowerMockito.whenNew(ConsoleAppender.class).withNoArguments().thenReturn((ConsoleAppender) consoleMock);
         PowerMockito.whenNew(FileAppender.class).withArguments(anyString()).thenReturn((FileAppender) fileMock);
-
     }
 
+    @Before
+    public void setupConfig() throws Exception {
+        setupMocks();
 
-    @Test
-    public void testLoggerDefaultMessageFormatConfiguration() throws Exception {
-
-        PowerMockito.whenNew(StringFormatter.class).withArguments(eq(defaultConfig)).thenReturn(formatterMock);
-        when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
-
-        defaultLogger.info(msg);
-        verify(consoleMock).append(eq(formattedMessage));
+        defaultConfig = new LoggerConfig();
+        customConfig = new LoggerConfig(format, level, separator);
+        loggerFactory = new SimpleLoggerFactory();
+        defaultLogger = loggerFactory.getLogger(TEST_NAME_DEFAULT);
+        loggerAdapter = new SimpleLoggerAdapter(TEST_NAME_ADAPTER, defaultConfig);
+        simpleLogger = new SimpleLogger(TEST_NAME, defaultConfig);
     }
 
     @Test
     public void testLoggerDefault_LevelIsInfo() throws Exception {
         assertTrue(defaultLogger.isInfoEnabled());
     }
-
-
 
     @Test
     public void testLoggerSetLevelTrace() throws Exception {
@@ -192,18 +178,17 @@ public class LoggerTestCases {
         verify(consoleMock, never()).append(eq(msg));
     }
 
-/*
     @Test
     public void testLoggerChangeFormat() throws Exception {
 
-        LoggerConfig formattedConfig = new LoggerConfig(formattedMessage, defaultConfig.level, defaultConfig.separator);
+        LoggerConfig formattedConfig = new LoggerConfig(format, defaultConfig.level, defaultConfig.separator);
 
         PowerMockito.whenNew(StringFormatter.class).withArguments(eq(formattedConfig)).thenReturn(formatterMock);
         when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
 
-        logger = new SimpleLoggerFactory().getLogger(LoggerTestCases.class.getName());
+        loggerAdapter.setFormat(format);
 
-        logger.info(msg);
+        loggerAdapter.info(msg);
         verify(consoleMock).append(eq(formattedMessage));
     }
 
@@ -215,9 +200,8 @@ public class LoggerTestCases {
         PowerMockito.whenNew(StringFormatter.class).withArguments(eq(formattedConfig)).thenReturn(formatterMock);
         when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
 
-        logger = new SimpleLoggerFactory().getLogger(LoggerTestCases.class.getName());
-
-        logger.info(msg);
+        loggerAdapter.setSeparator(separator);
+        loggerAdapter.info(msg);
         verify(consoleMock).append(eq(formattedMessage));
     }
 
@@ -231,9 +215,12 @@ public class LoggerTestCases {
         PowerMockito.whenNew(StringFormatter.class).withAnyArguments().thenReturn(formatterMock);
         when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
 
-        logger = new SimpleLoggerFactory().getLogger(LoggerTestCases.class.getName());
+        loggerAdapter.registerAppender(consoleMock_2);
+        loggerAdapter.registerAppender(fileMock);
+        loggerAdapter.registerAppender(fileMock_2);
 
-        logger.info(msg);
+        loggerAdapter.info(msg);
+
         verify(consoleMock).append(eq(formattedMessage));
         verify(consoleMock_2).append(eq(formattedMessage));
         verify(fileMock).append(eq(formattedMessage));
@@ -241,49 +228,13 @@ public class LoggerTestCases {
     }
 
     @Test
-    public void testCustomConstructor_NoAppenders() throws Exception {
-
-        PowerMockito.whenNew(StringFormatter.class).withArguments(eq(customConfig)).thenReturn(formatterMock);
-        when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
-
-        logger = new SimpleLoggerAdapter(TEST_NAME);
-
-        logger.info(msg);
-        verify(consoleMock, never()).append(eq(formattedMessage));
-
-        logger.error(msg);
-        verify(consoleMock).append(eq(formattedMessage));
-    }
-
-    @Test
     public void testCustomConstructor_WithOneAppender() throws Exception {
 
-        PowerMockito.whenNew(StringFormatter.class).withArguments(eq(customConfig)).thenReturn(formatterMock);
+        PowerMockito.whenNew(StringFormatter.class).withArguments(any()).thenReturn(formatterMock);
         when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
 
-        logger = new SimpleLoggerAdapter(TEST_NAME);
-
-        logger.info(msg);
-        verify(consoleMock, never()).append(eq(formattedMessage));
-
-        logger.error(msg);
+        loggerAdapter.info(msg);
         verify(consoleMock).append(eq(formattedMessage));
-    }
-
-    @Test
-    public void testCustomConstructor_WithMultipleAppenders() throws Exception {
-
-        PowerMockito.whenNew(StringFormatter.class).withArguments(eq(customConfig)).thenReturn(formatterMock);
-        when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
-
-        logger = new SimpleLoggerFactory().getLogger(TEST_NAME);
-
-        logger.info(msg);
-        verify(consoleMock, never()).append(eq(formattedMessage));
-
-        logger.error(msg);
-        verify(consoleMock).append(eq(formattedMessage));
-        verify(fileMock).append(eq(formattedMessage));
     }
 
     @Test(expected = InvalidArgumentException.class)
@@ -295,5 +246,5 @@ public class LoggerTestCases {
     public void testAddNullAppender() throws InvalidArgumentException {
         new SimpleLogger(LoggerTestCases.class.getName()).registerAppender(null);
     }
-/**/
+
 }

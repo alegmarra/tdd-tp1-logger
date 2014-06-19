@@ -28,9 +28,13 @@ public class LoggerConfigBuilder {
     private Map<String, LoggerConfig> loggerConfigs;
     private final static LoggerConfig defaultConfig = new LoggerConfig();
 
-    public LoggerConfigBuilder() throws IOException, InvalidArgumentException {
-        this("");
+    public static LoggerConfigBuilder getInstance(String configFileName)
+            throws IOException, InvalidArgumentException
+    {
+        return new LoggerConfigBuilder(configFileName);
     }
+
+    public LoggerConfigBuilder() throws IOException, InvalidArgumentException { this(""); }
 
     public LoggerConfigBuilder(String configFileName) throws IOException, InvalidArgumentException {
 

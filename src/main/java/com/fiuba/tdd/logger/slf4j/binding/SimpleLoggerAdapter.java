@@ -14,7 +14,6 @@ public class SimpleLoggerAdapter implements Logger, Configurable{
 
     public SimpleLoggerAdapter(Class<?> type){
         this(type.getName());
-
     }
 
     public SimpleLoggerAdapter(Class<?> type, LoggerConfig config){

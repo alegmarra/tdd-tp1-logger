@@ -1,6 +1,5 @@
 package com.fiuba.tdd.logger.slf4j.binding;
 
-import com.fiuba.tdd.logger.SimpleLogger;
 import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 import com.fiuba.tdd.logger.utils.LoggerConfigBuilder;
@@ -33,7 +32,8 @@ public class SimpleLoggerFactory implements ILoggerFactory {
         Logger logger = loggers.get(name);
         LoggerConfig defaultConfig = LoggerConfigBuilder.getConfig();
         LoggerConfig loggerConfig = loggersConfigs == null ? defaultConfig : loggersConfigs.getConfig(name);
-        if (loggerConfig == null) loggerConfig = defaultConfig;
+        if (loggerConfig == null)
+            loggerConfig = defaultConfig;
 
         if (logger == null) {
             logger = new SimpleLoggerAdapter(name, loggerConfig);

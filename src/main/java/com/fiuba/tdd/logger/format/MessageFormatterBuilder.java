@@ -32,7 +32,7 @@ public class MessageFormatterBuilder {
     public String formatMessage(String message, String loggerName){
 
         if (stringFormatter == null)
-            throw new RuntimeException("Builder was not initialized properly");
+            throw new RuntimeException("Builder was not initialized properly. Formatter was null");
 
         invoker = new LoggerInvoker(Thread.currentThread().getStackTrace()[StackDepthFromLoggerInvokerToLog], loggerName);
         return stringFormatter.formatMessage(invoker, message);
