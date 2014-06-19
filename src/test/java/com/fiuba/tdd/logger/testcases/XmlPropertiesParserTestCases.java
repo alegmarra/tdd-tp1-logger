@@ -9,6 +9,7 @@ import com.fiuba.tdd.logger.utils.LoggerConfig;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -17,16 +18,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class XmlPropertiesParserTestCases {
+public class XmlPropertiesParserTestCases extends PropertiesParserTestCases{
 
-    private ConfigParser parser;
-    private InputStream inputFile;
+    protected String fileName = "loggerXMLconfig.xml";
 
     @Before
     public void setup() throws UnsuportedFormatException, IOException, InvalidArgumentException {
-        parser = PropertiesParserFactory.getParser(".xml");
+        parser = PropertiesParserFactory.getParser(fileName.substring(fileName.lastIndexOf(".")));
 
-        inputFile = Thread.currentThread().getContextClassLoader().getResourceAsStream("loggerXMLconfig.xml");
+        inputFile = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
         assert inputFile != null;
     }
 
@@ -47,5 +47,4 @@ public class XmlPropertiesParserTestCases {
         assertEquals(1, simpleConfig.getAppenders().size());
         assertEquals(1, simpleConfig.getFilters().size());
     }
-
 }

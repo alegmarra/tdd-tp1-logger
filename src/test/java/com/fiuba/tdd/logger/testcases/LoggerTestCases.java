@@ -86,7 +86,6 @@ public class LoggerTestCases {
         logger.info(msg);
         verify(consoleMock).append(eq(formattedMessage));
     }
-/*
 
     @Test
     public void testLoggerGetLevelDefaultInfo() throws Exception {
@@ -268,5 +267,4 @@ public class LoggerTestCases {
         new SimpleLogger(LoggerTestCases.class.getName()).registerAppender(null);
     }
 
-    /**/
 }

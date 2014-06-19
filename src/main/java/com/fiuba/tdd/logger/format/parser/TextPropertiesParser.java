@@ -4,6 +4,8 @@ import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.format.parser.model.*;
 import com.fiuba.tdd.logger.utils.Configurable;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +29,7 @@ import java.util.regex.Pattern;
  */
 public class TextPropertiesParser extends AbstractPropertiesParserTemplate{
 
-    private static final Pattern keyValPattern = Pattern.compile("(.+)=(.*)");
+    private static final Pattern keyValPattern = Pattern.compile("(.+\\..+)=(.*)");
 
     public TextPropertiesParser(){}
 
@@ -45,11 +47,12 @@ public class TextPropertiesParser extends AbstractPropertiesParserTemplate{
             ConfigDto currentConfig = new ConfigDto();
             br = new BufferedReader(new InputStreamReader(config));
             while ((currentLine = br.readLine()) != null) {
-                if (!currentLine.isEmpty()){
+                if (!StringUtils.isEmpty(currentLine)){
                     matcher = keyValPattern.matcher(currentLine);
                     if (matcher.matches()){
                         String key = matcher.group(1);
                         String value = matcher.group(2);
+                        currentConfig.name = StringUtils.isEmpty(currentConfig.name) ? parseName(key): currentConfig.name;
                         if (key.contains("level")){
                             currentConfig.level = value;
                         } else if (key.contains("format")){
@@ -67,15 +70,20 @@ public class TextPropertiesParser extends AbstractPropertiesParserTemplate{
                     currentConfig = new ConfigDto();
                 }
             }
+            logger.configs.add(currentConfig);
+
         } catch (IOException e) {
             e.printStackTrace();
             throw e;
-
         } finally {
             if (br != null) br.close();
         }
 
         return logger;
+    }
+
+    private String parseName(String property) {
+        return StringUtils.substring(property, 0, StringUtils.indexOf(property, "."));
     }
 
     private FilterDto parseFilter(String initLine, BufferedReader br) throws IOException {
@@ -84,7 +92,9 @@ public class TextPropertiesParser extends AbstractPropertiesParserTemplate{
 
         Matcher matcher;
         String currentLine = initLine;
-        while ((currentLine = br.readLine()) != null && currentLine.contains("filter")) {
+        while ((currentLine = br.readLine()) != null &&
+                currentLine.contains("filter") && !currentLine.contains(".id="))
+        {
             matcher = keyValPattern.matcher(currentLine);
             if (matcher.matches()){
                 String key = matcher.group(1);
@@ -110,7 +120,9 @@ public class TextPropertiesParser extends AbstractPropertiesParserTemplate{
 
         Matcher matcher;
         String currentLine = initLine;
-        while ((currentLine = br.readLine()) != null && currentLine.contains("appender")) {
+        while ((currentLine = br.readLine()) != null &&
+                currentLine.contains("appender")  && !currentLine.contains(".id="))
+        {
             matcher = keyValPattern.matcher(currentLine);
             if (matcher.matches()){
                 String key = matcher.group(1);
