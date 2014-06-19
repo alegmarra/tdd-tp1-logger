@@ -10,15 +10,25 @@ import com.fiuba.tdd.logger.utils.Configurable.Level;
  * */
 public class MessageFormatterBuilder {
 
+    public static enum MessageFormat {STRING, JSON}
+
     private static final int StackDepthFromLoggerInvokerToLog = 3;
 
     private LoggerConfig config = new LoggerConfig();
-    private LoggerInvoker invoker = null;
-    private StringFormatter stringFormatter = null;
+    private MessageFormatter formatter = null;
 
     public MessageFormatterBuilder build(){
+        return build(MessageFormat.STRING);
+    }
 
-        stringFormatter = new StringFormatter(config);
+    public MessageFormatterBuilder build(MessageFormat type){
+        switch (type){
+            case STRING: formatter = new StringFormatter(config);
+                break;
+            case JSON: formatter = new JSONFormatter(config);
+                break;
+        }
+
         return this;
     }
 
@@ -31,10 +41,10 @@ public class MessageFormatterBuilder {
 
     public String formatMessage(String message, String loggerName){
 
-        if (stringFormatter == null)
+        if (formatter == null)
             throw new RuntimeException("Builder was not initialized properly. Formatter was null");
 
-        invoker = new LoggerInvoker(Thread.currentThread().getStackTrace()[StackDepthFromLoggerInvokerToLog], loggerName);
-        return stringFormatter.formatMessage(invoker, message);
+        LoggerInvoker invoker = new LoggerInvoker(Thread.currentThread().getStackTrace()[StackDepthFromLoggerInvokerToLog], loggerName);
+        return formatter.formatMessage(invoker, message);
     }
 }
