@@ -74,6 +74,7 @@ public class LoggerConfigTestCases {
         assertTrue  (defaultConfig.getFilters().get(0) instanceof PatternFilter);
     }
 
+    // Sort of an integration test
     @Test
     public void testConfigFromPropertiesInClasspath() {
 
