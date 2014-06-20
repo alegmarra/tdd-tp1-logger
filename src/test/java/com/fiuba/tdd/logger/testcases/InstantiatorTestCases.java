@@ -37,7 +37,7 @@ public class InstantiatorTestCases {
     @Test(expected = ClassNotFoundException.class)
     public void instantiateAppendable_ClassNotFoundTest() throws ClassNotFoundException {
         try {
-            Instantiator.instantiateAppendable(nonExistentAppender);
+            Instantiator.instantiate(nonExistentAppender);
         } catch (ClassNotFoundException e) {
             throw e;
         } catch (Exception e) {
@@ -49,7 +49,7 @@ public class InstantiatorTestCases {
     @Test
     public void instantiateAppendableTest() {
         try {
-            Appendable myFilter = Instantiator.instantiateAppendable(existentAppender);
+            Appendable myFilter = Instantiator.instantiate(existentAppender);
             assertTrue(myFilter instanceof CustomAppendable);
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,7 +61,7 @@ public class InstantiatorTestCases {
     @Test(expected = ClassNotFoundException.class)
     public void instantiateFilter_ClassNotFoundTest() throws ClassNotFoundException {
         try {
-            Instantiator.instantiateFilter(nonExistentFilter);
+            Instantiator.instantiate(nonExistentFilter);
         } catch (ClassNotFoundException e) {
             throw e;
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class InstantiatorTestCases {
     @Test
     public void instantiateFilterTest() {
         try {
-            Filter myFilter = Instantiator.instantiateFilter(existentFilter);
+            Filter myFilter = Instantiator.instantiate(existentFilter);
             assertTrue(myFilter instanceof CustomFilter);
         } catch (Exception e) {
             e.printStackTrace();

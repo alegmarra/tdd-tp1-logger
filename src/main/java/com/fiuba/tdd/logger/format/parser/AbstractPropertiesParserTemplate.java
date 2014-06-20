@@ -49,7 +49,7 @@ public abstract class AbstractPropertiesParserTemplate implements ConfigParser{
     private void addFilters(ConfigDto configDto, LoggerConfig parsedConfig) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         for(FilterDto filter: configDto.filters){
             try {
-                parsedConfig.addFilter(Instantiator.instantiateFilter(filter));
+                parsedConfig.addFilter(Instantiator.instantiate(filter));
             } catch (ClassNotFoundException | InstantiationException | InvalidArgumentException e) {
                 e.printStackTrace();
             }
@@ -59,7 +59,7 @@ public abstract class AbstractPropertiesParserTemplate implements ConfigParser{
     private void addAppenders(ConfigDto configDto, LoggerConfig parsedConfig) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         for(AppenderDto appender:  configDto.appenders){
             try {
-                parsedConfig.addAppender(Instantiator.instantiateAppendable(appender));
+                parsedConfig.addAppender(Instantiator.instantiate(appender));
             } catch (ClassNotFoundException | InstantiationException | InvalidArgumentException e) {
                 e.printStackTrace();
             }

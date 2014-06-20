@@ -5,7 +5,7 @@ import com.fiuba.tdd.logger.exceptions.UnsuportedFormatException;
 
 import java.io.IOException;
 
-public class PropertiesParserFactory {
+public abstract class PropertiesParserFactory {
 
     private static final String XML = "xml";
     private static final String dotXML = ".xml";

@@ -17,16 +17,16 @@ import java.util.Map;
 /**
  * Best name eva!
  */
-public abstract class Instantiator {
+public abstract class Instantiator extends AbstractPropertiesParserTemplate {
 
     private static final String TYPES = "types";
     private static final String VALUES = "values";
 
-    public static Appendable instantiateAppendable(AppenderDto appender) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, InvalidArgumentException {
+    public static Appendable instantiate(AppenderDto appender) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, InvalidArgumentException {
         return castTo(getInstance(appender.implementation, appender.params), Appendable.class);
     }
 
-    public static Filter instantiateFilter(FilterDto filter) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, InvalidArgumentException {
+    public static Filter instantiate(FilterDto filter) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, InvalidArgumentException {
         return castTo(getInstance(filter.implementation, filter.params), Filter.class);
     }
 
