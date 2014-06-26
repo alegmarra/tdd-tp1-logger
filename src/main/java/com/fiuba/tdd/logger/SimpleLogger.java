@@ -126,8 +126,13 @@ public class SimpleLogger implements Configurable{
     }
 
     private void log(String msg, Level level) {
-        if (skipMessage(msg, level))
+        try {
+            if (skipMessage(msg, level))
+                return;
+        } catch (InvalidArgumentException e) {
+            e.printStackTrace();
             return;
+        }
 
         try {
 
@@ -149,14 +154,14 @@ public class SimpleLogger implements Configurable{
         }
     }
 
-    private Boolean skipMessage(final String msg, Level level) {
+    private Boolean skipMessage(final String msg, Level level) throws InvalidArgumentException {
         boolean skipped = false;
 
         skipped = level.ordinal() < this.level.ordinal();
 
         Iterator<Filter> it = filters.iterator();
         while (it.hasNext() && !skipped){
-            skipped = !it.next().allows(msg);
+            skipped = !it.next().allows(msg, new LoggerConfig(format,level, separator));
         }
 
         return skipped;

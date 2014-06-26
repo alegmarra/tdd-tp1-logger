@@ -18,25 +18,25 @@ public class PatternFilterTestCases {
     @Test
     public void testDefaultConstructor_AllowsEmptyMessage() {
         patternFilter = new PatternFilter();
-        assertTrue(patternFilter.allows(""));
+        assertTrue(patternFilter.allows("", null));
     }
 
     @Test
     public void testDefaultConstructor_AllowsSimpleMessage() {
         patternFilter = new PatternFilter();
-        assertTrue(patternFilter.allows(simpleMessage));
+        assertTrue(patternFilter.allows(simpleMessage, null));
     }
 
     @Test
     public void testConstructorWithPattern_NotAllowsSimpleMessage() {
         patternFilter = new PatternFilter(matchesEverythingPattern);
-        assertFalse(patternFilter.allows(simpleMessage));
+        assertFalse(patternFilter.allows(simpleMessage, null));
     }
 
     @Test
     public void testConstructorWithPatternString_NotAllowsSimpleMessage() {
         patternFilter = new PatternFilter(matchesEverythingPatternString);
-        assertFalse(patternFilter.allows(simpleMessage));
+        assertFalse(patternFilter.allows(simpleMessage, null));
     }
 
     @Test
@@ -44,7 +44,7 @@ public class PatternFilterTestCases {
         patternFilter = new PatternFilter();
         patternFilter.setPattern(matchesEverythingPattern);
 
-        assertFalse(patternFilter.allows(simpleMessage));
+        assertFalse(patternFilter.allows(simpleMessage, null));
     }
 
     @Test
@@ -52,7 +52,7 @@ public class PatternFilterTestCases {
         patternFilter = new PatternFilter();
         patternFilter.setPattern(matchesEverythingPatternString);
 
-        assertFalse(patternFilter.allows(simpleMessage));
+        assertFalse(patternFilter.allows(simpleMessage, null));
     }
 
     @Test
@@ -61,6 +61,6 @@ public class PatternFilterTestCases {
         String ISO8601DateMessage = "2014-06-01T05:49:23-03:00";
         patternFilter = new PatternFilter(ISO8601DatePattern);
 
-        assertFalse(patternFilter.allows(ISO8601DateMessage));
+        assertFalse(patternFilter.allows(ISO8601DateMessage, null));
     }
 }

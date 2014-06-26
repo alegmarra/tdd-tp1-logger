@@ -1,5 +1,7 @@
 package com.fiuba.tdd.logger.filters;
 
+import com.fiuba.tdd.logger.utils.LoggerConfig;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,7 +34,7 @@ public class PatternFilter implements Filter {
     }
 
     @Override
-    public Boolean allows(String msg) {
+    public Boolean allows(String msg, LoggerConfig config) {
         Matcher matcher = pattern.matcher(msg);
         return !matcher.matches();
     }
