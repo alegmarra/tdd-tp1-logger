@@ -24,6 +24,7 @@ public class LoggerConfigBuilder {
 
     private static final String configPrefix = "logger­config";
     private static final String[] supportedExtensions = {".properties", ".xml"};
+    private static final String[] supportedNames = {"logger-config.properties", "logger-config.xml"};
 
     private Map<String, LoggerConfig> loggerConfigs;
     private final static LoggerConfig defaultConfig = new LoggerConfig();
@@ -56,12 +57,12 @@ public class LoggerConfigBuilder {
     private URL getPropertiesFile(String filename) {
         URL properties = null;
         if (filename == null || filename.equals("")) {
-            String configFileName = "";
+            String configFileName;
             int retries = 0;
             do {
-                configFileName = configPrefix.concat(supportedExtensions[retries++]);
+                configFileName = supportedNames[retries++];
                 properties = Thread.currentThread().getContextClassLoader().getResource(configFileName);
-            } while (properties == null && retries< supportedExtensions.length);
+            } while (properties == null && retries< supportedNames.length);
         } else {
             properties = Thread.currentThread().getContextClassLoader().getResource(filename);
         }

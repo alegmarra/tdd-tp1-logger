@@ -1,4 +1,4 @@
-package com.fiuba.tdd.logger.slf4j.binding;
+package org.slf4j.impl;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.spi.LoggerFactoryBinder;

@@ -83,7 +83,11 @@ public class TextPropertiesParser extends AbstractPropertiesParserTemplate{
     }
 
     private String parseName(String property) {
-        return StringUtils.substring(property, 0, StringUtils.indexOf(property, "."));
+        Pattern pattern = Pattern.compile(".(level|format|separator|appender|filter)");
+        Matcher matcher = pattern.matcher(property);
+        int nameEnd = matcher.find() ? matcher.start() : -1;
+
+        return (nameEnd > 0 ? StringUtils.substring(property, 0, nameEnd) : "");
     }
 
     private FilterDto parseFilter(String initLine, BufferedReader br) throws IOException {
