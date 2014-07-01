@@ -28,7 +28,7 @@ public abstract class AbstractPropertiesParserTemplate implements ConfigParser{
             for (ConfigDto configDto: logger.configs){
                 LoggerConfig parsedConfig = new LoggerConfig(configDto.format,
                         Configurable.Level.valueOf(configDto.level),
-                        configDto.separator);
+                        configDto.separator, configDto.formatter);
 
                 addAppenders(configDto, parsedConfig);
                 addFilters(configDto, parsedConfig);

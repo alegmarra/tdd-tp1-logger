@@ -51,7 +51,7 @@ public class StringFormatterTestCases extends TestCase{
     public void testFormatMessage_NoFormat() throws InvalidArgumentException {
 
         LoggerInvoker invoker = new LoggerInvoker(Thread.currentThread().getStackTrace()[0], testName);
-        MessageFormatter mf = new StringFormatter(new LoggerConfig(noFormat, Level.INFO, ","));
+        MessageFormatter mf = new StringFormatter(new LoggerConfig(noFormat, Level.INFO, ",", "STRING"));
 
         assertEquals("Formatter modified an unformatted string", noFormat, mf.formatMessage(invoker, ""));
     }
@@ -60,7 +60,7 @@ public class StringFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithLine() throws InvalidArgumentException {
 
-        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithLineNumber, Level.INFO, ","));
+        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithLineNumber, Level.INFO, ",", "STRING"));
 
         Integer currentLine = Thread.currentThread().getStackTrace()[1].getLineNumber();
         expected = "show invoker line :: " + (currentLine + 2 );
@@ -72,7 +72,7 @@ public class StringFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithFileName() throws InvalidArgumentException {
 
-        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithFileName, Level.INFO, ","));
+        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithFileName, Level.INFO, ",", "STRING"));
 
         String fileName = Thread.currentThread().getStackTrace()[1].getFileName();
         expected = "show invoker filename :: " + fileName;
@@ -84,7 +84,7 @@ public class StringFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithLevel() throws InvalidArgumentException {
 
-        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithLevel, Level.INFO, ","));
+        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithLevel, Level.INFO, ",", "STRING"));
 
         expected = "show level :: INFO";
         formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1], testName), "");
@@ -95,7 +95,7 @@ public class StringFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithMethodName() throws InvalidArgumentException {
 
-        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithMethodName, Level.INFO, ","));
+        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithMethodName, Level.INFO, ",", "STRING"));
 
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         expected = "show invoker method :: " + methodName;
@@ -107,7 +107,7 @@ public class StringFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithMessage() throws InvalidArgumentException {
 
-        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithMessage, Level.INFO, ","));
+        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithMessage, Level.INFO, ",", "STRING"));
 
         String message = "My_Custom message";
         expected = "show message :: " + message;
@@ -119,7 +119,7 @@ public class StringFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithPercent() throws InvalidArgumentException {
 
-        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithPercent, Level.INFO, ","));
+        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithPercent, Level.INFO, ",", "STRING"));
 
         expected = "show percent :: %";
         formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1], testName), "");
@@ -130,7 +130,7 @@ public class StringFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithSeparator() throws InvalidArgumentException {
 
-        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithSeparator, Level.INFO, "-_-"));
+        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithSeparator, Level.INFO, "-_-", "STRING"));
 
         expected = "show separator :: -_-";
         formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1], testName), "");
@@ -141,7 +141,7 @@ public class StringFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithThread() throws InvalidArgumentException {
 
-        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithThread, Level.INFO, ","));
+        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithThread, Level.INFO, ",", "STRING"));
 
         String thread = Thread.currentThread().getName();
         expected = "show thread :: " + thread;
@@ -153,7 +153,7 @@ public class StringFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithDate() throws InvalidArgumentException {
 
-        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithDate, Level.INFO, ","));
+        MessageFormatter mf = new StringFormatter(new LoggerConfig(formatWithDate, Level.INFO, ",", "STRING"));
 
         Calendar calendar = new GregorianCalendar();
         String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
@@ -172,7 +172,7 @@ public class StringFormatterTestCases extends TestCase{
 
         String level = Level.DEBUG.name();
         String separator = ",";
-        MessageFormatter mf = new StringFormatter(new LoggerConfig(integrationFormat, Level.DEBUG, separator));
+        MessageFormatter mf = new StringFormatter(new LoggerConfig(integrationFormat, Level.DEBUG, separator, "STRING"));
 
         String message = "My_Custom message";
         String thread = Thread.currentThread().getName();

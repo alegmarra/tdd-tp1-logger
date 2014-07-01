@@ -80,7 +80,7 @@ public class LoggerTestCases {
         setupMocks();
 
         defaultConfig = new LoggerConfig();
-        customConfig = new LoggerConfig(format, level, separator);
+        customConfig = new LoggerConfig(format, level, separator, "STRING");
         loggerFactory = new SimpleLoggerFactory();
         defaultLogger = loggerFactory.getLogger(TEST_NAME_DEFAULT);
         loggerAdapter = new SimpleLoggerAdapter(TEST_NAME_ADAPTER, defaultConfig);
@@ -181,7 +181,7 @@ public class LoggerTestCases {
     @Test
     public void testLoggerChangeFormat() throws Exception {
 
-        LoggerConfig formattedConfig = new LoggerConfig(format, defaultConfig.level, defaultConfig.separator);
+        LoggerConfig formattedConfig = new LoggerConfig(format, defaultConfig.level, defaultConfig.separator, "STRING");
 
         PowerMockito.whenNew(StringFormatter.class).withArguments(eq(formattedConfig)).thenReturn(formatterMock);
         when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);
@@ -195,7 +195,7 @@ public class LoggerTestCases {
     @Test
     public void testLoggerChangeSeparator() throws Exception {
 
-        LoggerConfig formattedConfig = new LoggerConfig(defaultConfig.format, defaultConfig.level, separator);
+        LoggerConfig formattedConfig = new LoggerConfig(defaultConfig.format, defaultConfig.level, separator, "STRING");
 
         PowerMockito.whenNew(StringFormatter.class).withArguments(eq(formattedConfig)).thenReturn(formatterMock);
         when(formatterMock.formatMessage((LoggerInvoker) any(), eq(msg))).thenReturn(formattedMessage);

@@ -12,7 +12,7 @@ public class MessageFormatterBuilder {
 
     public static enum MessageFormat {STRING, JSON}
 
-    private static final int StackDepthFromLoggerInvokerToLog = 3;
+    private static final int StackDepthFromLoggerInvokerToLog = 5;
 
     private LoggerConfig config = new LoggerConfig();
     private MessageFormatter formatter = null;
@@ -35,7 +35,7 @@ public class MessageFormatterBuilder {
     public MessageFormatterBuilder withConfig(final String format, final Level level, final String separator)
             throws InvalidArgumentException
     {
-        config = new LoggerConfig(format, level, separator);
+        config = new LoggerConfig(format, level, separator, "STRING");
         return this;
     }
 

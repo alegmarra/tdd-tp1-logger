@@ -21,6 +21,7 @@ public class LoggerConfig {
     final public Level level;
     final public String format;
     final public String separator;
+    final public String formatter;
 
     private List<Appendable> appenders = new LinkedList<>();
     private List<Filter> filters = new LinkedList<>();
@@ -29,11 +30,12 @@ public class LoggerConfig {
         this.level = Level.INFO;
         this.format = "%d{HH:mm:ss} %n %p %n %t %n %m ";
         this.separator = "-";
+        this.formatter = "STRING";
         addAppender(new ConsoleAppender());
         addFilter(new PatternFilter());
     }
 
-    public LoggerConfig(final String format, final Level level, final String separator)
+    public LoggerConfig(final String format, final Level level, final String separator, String formatter)
             throws InvalidArgumentException
     {
         if (format == null || level == null || separator == null) {
@@ -43,10 +45,11 @@ public class LoggerConfig {
         this.level = level;
         this.format = format;
         this.separator = separator;
+        this.formatter = formatter;
     }
 
 
-    public LoggerConfig(final String format, final Level level, final String separator, Appendable... outputs)
+    public LoggerConfig(final String format, final Level level, final String separator, String formatter, Appendable... outputs)
             throws InvalidArgumentException
     {
         if (format == null || level == null || separator == null) {
@@ -56,6 +59,7 @@ public class LoggerConfig {
         this.level = level;
         this.format = format;
         this.separator = separator;
+        this.formatter = formatter;
 
         if (outputs != null)
             for (Appendable appender : outputs)
@@ -63,7 +67,7 @@ public class LoggerConfig {
 
     }
 
-    public LoggerConfig(final String format, final Level level, final String separator, Appendable[] outputs, Filter[] filters)
+    public LoggerConfig(final String format, final Level level, final String separator, String formatter, Appendable[] outputs, Filter[] filters)
             throws InvalidArgumentException
     {
         if (format == null || level == null || separator == null) {
@@ -73,6 +77,7 @@ public class LoggerConfig {
         this.level = level;
         this.format = format;
         this.separator = separator;
+        this.formatter = formatter;
 
         if (outputs != null)
             for (Appendable appender : outputs)
@@ -108,7 +113,5 @@ public class LoggerConfig {
                ((LoggerConfig) obj).level.equals(this.level) &&
                ((LoggerConfig) obj).separator.equals(this.separator));
     }
-
-
 
 }

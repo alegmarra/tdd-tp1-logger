@@ -21,6 +21,9 @@ public class ConfigDto {
     @XmlElement
     public String separator;
 
+    @XmlElement
+    public String formatter;
+
     @XmlElement(name="appender")
     public  List<AppenderDto> appenders = new LinkedList<>();
 

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<loggerProperties>
+    <config name="logger1">
+        <format>%d{dd-MM-YYYY hh:mm_ss.SSS} ­ [%p] [%g] %t %F %L %%- %m %n</format>
+        <level>INFO</level>
+        <separator>::</separator>
+        <formatter>STRING</formatter>
+        <appender implementation="com.fiuba.tdd.logger.appenders.ConsoleAppender"/>
+
+        <filter implementation="com.fiuba.tdd.logger.filters.PatternFilter">
+            <param type="java.lang.String">.* \\d*[13579] %- .*</param>
+        </filter>
+    </config>
+    <config name="logger2">
+        <format>%d{HH:mm:ss} ­ [%p] ­ %t ­ %m</format>
+        <level>DEBUG</level>
+        <separator>::</separator>
+        <formatter>STRING</formatter>
+        <appender implementation="sample.app.root.StaticAppender"/>
+        <filter implementation="sample.app.root.CustomFilter">
+            <param type="java.lang.String">a^</param>
+            <param type="java.lang.String"></param>
+            <param type="java.lang.String">DEBUG</param>
+            <param type="java.lang.String"></param>
+        </filter>
+        <!--pattern, String format, String level, String separator-->
+        <!--<filter implementation="com.fiuba.tdd.logger.filters.PatternFilter">-->
+            <!--<param type="java.lang.String">.*^(DEBUG).*tp.*</param>-->
+        <!--</filter>-->
+    </config>
+    <config name="logger3">
+        <format>%d{HH:mm:ss} ­ %p ­ %t ­ %m</format>
+        <level>INFO</level>
+        <separator>::</separator>
+        <formatter>JSON</formatter>
+        <appender implementation="com.fiuba.tdd.logger.appenders.ConsoleAppender"/>
+    </config>
+</loggerProperties>

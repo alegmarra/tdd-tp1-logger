@@ -4,7 +4,6 @@ import com.fiuba.tdd.logger.exceptions.InvalidArgumentException;
 import com.fiuba.tdd.logger.format.LoggerInvoker;
 import com.fiuba.tdd.logger.format.MessageFormatter;
 import com.fiuba.tdd.logger.format.JSONFormatter;
-import com.fiuba.tdd.logger.format.JSONFormatter;
 import com.fiuba.tdd.logger.utils.Configurable.Level;
 import com.fiuba.tdd.logger.utils.LoggerConfig;
 import junit.framework.TestCase;
@@ -53,7 +52,7 @@ public class JSONFormatterTestCases extends TestCase{
     public void testFormatMessage_NoFormat() throws InvalidArgumentException {
 
         LoggerInvoker invoker = new LoggerInvoker(Thread.currentThread().getStackTrace()[0], TEST_NAME);
-        MessageFormatter mf = new JSONFormatter(new LoggerConfig(noFormat, Level.INFO, ","));
+        MessageFormatter mf = new JSONFormatter(new LoggerConfig(noFormat, Level.INFO, ",", "STRING"));
 
         assertEquals("Formatter modified an unformatted string", noFormat, mf.formatMessage(invoker, ""));
     }
@@ -62,7 +61,7 @@ public class JSONFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithLine() throws InvalidArgumentException {
 
-        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithLineNumber, Level.INFO, ","));
+        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithLineNumber, Level.INFO, ",", "STRING"));
 
         Integer currentLine = Thread.currentThread().getStackTrace()[1].getLineNumber();
         expected = "{\"line\":\"" + (currentLine + 2 ) +  "\"}";
@@ -74,7 +73,7 @@ public class JSONFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithFileName() throws InvalidArgumentException {
 
-        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithFileName, Level.INFO, ","));
+        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithFileName, Level.INFO, ",", "STRING"));
 
         String fileName = Thread.currentThread().getStackTrace()[1].getFileName();
         expected = "{\"fileName\":\"" + fileName +  "\"}";
@@ -86,7 +85,7 @@ public class JSONFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithLevel() throws InvalidArgumentException {
 
-        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithLevel, Level.INFO, ","));
+        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithLevel, Level.INFO, ",", "STRING"));
 
         expected = "{\"level\":\"INFO\"}";
         formatted = mf.formatMessage(new LoggerInvoker(Thread.currentThread().getStackTrace()[1], TEST_NAME), "");
@@ -97,7 +96,7 @@ public class JSONFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithMethodName() throws InvalidArgumentException {
 
-        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithMethodName, Level.INFO, ","));
+        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithMethodName, Level.INFO, ",", "STRING"));
 
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         expected = "{\"methodName\":\"" + methodName +  "\"}";
@@ -109,7 +108,7 @@ public class JSONFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithMessage() throws InvalidArgumentException {
 
-        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithMessage, Level.INFO, ","));
+        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithMessage, Level.INFO, ",", "STRING"));
 
         String message = "My_Custom message";
         expected = "{\"message\":\"" + message +  "\"}";
@@ -121,7 +120,7 @@ public class JSONFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithThread() throws InvalidArgumentException {
 
-        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithThread, Level.INFO, ","));
+        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithThread, Level.INFO, ",", "STRING"));
 
         String thread = Thread.currentThread().getName();
         expected = "{\"thread\":\"" + thread +  "\"}";
@@ -133,7 +132,7 @@ public class JSONFormatterTestCases extends TestCase{
     @Test
     public void testFormatMessage_WithDate() throws InvalidArgumentException {
 
-        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithDate, Level.INFO, ","));
+        MessageFormatter mf = new JSONFormatter(new LoggerConfig(formatWithDate, Level.INFO, ",", "STRING"));
 
         Calendar calendar = new GregorianCalendar();
         String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
@@ -151,7 +150,7 @@ public class JSONFormatterTestCases extends TestCase{
 
         String level = Level.DEBUG.name();
         String separator = ",";
-        MessageFormatter mf = new JSONFormatter(new LoggerConfig(integrationFormat, Level.DEBUG, separator));
+        MessageFormatter mf = new JSONFormatter(new LoggerConfig(integrationFormat, Level.DEBUG, separator, "STRING"));
 
         String message = "My_Custom message";
         String thread = Thread.currentThread().getName();

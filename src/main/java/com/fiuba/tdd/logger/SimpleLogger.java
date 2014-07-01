@@ -21,6 +21,7 @@ public class SimpleLogger implements Configurable{
 
     private List<Appendable> outputs = new LinkedList<>();
     private List<Filter> filters = new LinkedList<>();
+    private String formatter;
 
     public SimpleLogger(final String name) throws InvalidArgumentException {
         setName(name);
@@ -36,7 +37,7 @@ public class SimpleLogger implements Configurable{
             throws InvalidArgumentException
     {
         setName(name);
-        setConfig(new LoggerConfig(format, level, separator, outputs));
+        setConfig(new LoggerConfig(format, level, separator, "STRING", outputs));
     }
 
 
@@ -44,7 +45,7 @@ public class SimpleLogger implements Configurable{
             throws InvalidArgumentException
     {
         setName(name);
-        setConfig(new LoggerConfig(format, level, separator, outputs, filters));
+        setConfig(new LoggerConfig(format, level, separator, "STRING", outputs, filters));
     }
 
     public void trace(String msg){
@@ -137,7 +138,7 @@ public class SimpleLogger implements Configurable{
         try {
 
             MessageFormatterBuilder builder = new MessageFormatterBuilder();
-            builder.withConfig(this.format, level, this.separator).build();
+            builder.withConfig(this.format, level, this.separator).build(MessageFormatterBuilder.MessageFormat.valueOf(this.formatter));
 
             final String finalMsg = builder.formatMessage(msg, this.name);
 
@@ -161,7 +162,7 @@ public class SimpleLogger implements Configurable{
 
         Iterator<Filter> it = filters.iterator();
         while (it.hasNext() && !skipped){
-            skipped = !it.next().allows(msg, new LoggerConfig(format,level, separator));
+            skipped = !it.next().allows(msg, new LoggerConfig(format,level, separator, "STRING"));
         }
 
         return skipped;
@@ -178,6 +179,7 @@ public class SimpleLogger implements Configurable{
         this.level = config.level;
         this.format = config.format;
         this.separator = config.separator;
+        this.formatter = config.formatter;
 
         for ( Appendable output : config.getAppenders() ) {
             registerAppender(output);

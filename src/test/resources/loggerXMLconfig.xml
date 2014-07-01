@@ -4,6 +4,7 @@
         <format>%d{HH:mm:ss} ­ %p ­ %t ­ %m</format>
         <level>ERROR</level>
         <separator>,</separator>
+        <formatter>STRING</formatter>
         <appender implementation="com.fiuba.tdd.logger.appenders.FileAppender">
             <param type="java.lang.String">test_fileLogger.log</param>
         </appender>
@@ -18,6 +19,7 @@
         <format>%d{HH:mm:ss} ­ %p ­ %t ­ %m</format>
         <level>INFO</level>
         <separator>::</separator>
+        <formatter>JSON</formatter>
         <appender implementation="com.fiuba.tdd.logger.appenders.ConsoleAppender"/>
         <filter implementation="com.fiuba.tdd.logger.filters.PatternFilter"/>
     </config>
